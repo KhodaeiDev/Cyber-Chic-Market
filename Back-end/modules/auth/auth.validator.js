@@ -17,4 +17,13 @@ const registerValidator = yup.object({
     .oneOf([yup.ref("password"), null], "رمز عبود همخوانی ندارد"),
 });
 
-module.exports = { registerValidator };
+const loginValidator = yup.object({
+  username: yup.string().required("نام کاربری اجباری است"),
+  password: yup
+    .string()
+    .min(8, "رمز عبور باید حداقل 8 کاراکتر داشته باشد")
+    .max(45, "رمز عبور باید حداکثر 45 کاراکتر داشته باشد")
+    .required("رمز عبور اجباری است"),
+});
+
+module.exports = { registerValidator, loginValidator };

@@ -1,7 +1,7 @@
 const userModel = require("./../../models/User");
 const bcrypt = require("bcrypt");
-const { registerValidator } = require("./auth.validator");
-const { createToken } = require("../../utils/auth");
+const { registerValidator, loginValidator } = require("./auth.validator");
+const { createAccessToken } = require("../../utils/auth");
 
 exports.showViewRegister = async (req, res) => {
   //Codes
@@ -39,11 +39,36 @@ exports.register = async (req, res, next) => {
     });
 
     //*create USER Token
-    const accessToken = await createToken(newUser._id);
+    const accessToken = await createAccessToken(newUser._id);
 
     return res.status(201).json({ accessToken: accessToken });
   } catch (err) {
     console.log("err=>", err);
+    next(err);
+  }
+};
+
+exports.showViewLogin = async (req, res) => {
+  //Codes
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    await loginValidator.validate({ username, password });
+
+    const user = await userModel.findOne({ username });
+    if (!user) {
+      return res.status(404).json("Invalid Data");
+    }
+
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword) {
+      return res.status(401).json("Invalid Data");
+    }
+    const token = await createAccessToken(user._id);
+    return res.json({ accessToken: token });
+  } catch (err) {
     next(err);
   }
 };

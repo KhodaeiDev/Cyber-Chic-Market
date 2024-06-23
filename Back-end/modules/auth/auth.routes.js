@@ -8,4 +8,6 @@ router
   .get(controller.showViewRegister)
   .post(controller.register);
 
+router.route("/login").get(controller.showViewLogin).post(controller.login);
+
 module.exports = router;
