@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const { setHeaders } = require("./middleware/setHeaders");
 require("dotenv").config();
+const authRouter = require("./modules/auth/auth.routes");
 
 const app = express();
 
@@ -14,5 +15,8 @@ app.use(cookieParser());
 
 //* Cors Policy (Set Headers)
 app.use(setHeaders);
+
+//* Routes
+app.use("/auth", authRouter);
 
 module.exports = app;
