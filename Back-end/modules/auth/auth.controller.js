@@ -12,12 +12,15 @@ exports.register = async (req, res, next) => {
     const { username, phone, password, confirmPassword } = req.body;
 
     //* Validate Body
-    await registerValidator.validate({
-      username,
-      phone,
-      password,
-      confirmPassword,
-    });
+    await registerValidator.validate(
+      {
+        username,
+        phone,
+        password,
+        confirmPassword,
+      },
+      { abortEarly: true }
+    );
 
     //* Exist User
     const isExistUser = await userModel.findOne({ username });
@@ -43,7 +46,6 @@ exports.register = async (req, res, next) => {
 
     return res.status(201).json({ accessToken: accessToken });
   } catch (err) {
-    console.log("err=>", err);
     next(err);
   }
 };
@@ -55,7 +57,7 @@ exports.showViewLogin = async (req, res) => {
 exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    await loginValidator.validate({ username, password });
+    await loginValidator.validate({ username, password }, { abortEarly: true });
 
     const user = await userModel.findOne({ username });
     if (!user) {

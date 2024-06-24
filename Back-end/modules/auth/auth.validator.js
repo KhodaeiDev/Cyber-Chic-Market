@@ -4,7 +4,10 @@ let phoneRegex =
   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 
 const registerValidator = yup.object({
-  username: yup.string().required("نام کاربری اجباری است"),
+  username: yup
+    .string()
+    .required("نام کاربری اجباری است")
+    .min(3, "نام کاربری حداقل باید 3 کارکتر باشد"),
   phone: yup.string().required(),
   // .matches(phoneRegex, "لطفا شماره تلفن معتبر وارد کنید"),
   password: yup

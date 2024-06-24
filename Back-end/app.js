@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const { setHeaders } = require("./middleware/setHeaders");
 require("dotenv").config();
 const authRouter = require("./modules/auth/auth.routes");
+const categoryRouter = require("./modules/category/category.routes");
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(setHeaders);
 
 //* Routes
 app.use("/auth", authRouter);
+app.use("/category", categoryRouter);
 
 module.exports = app;
