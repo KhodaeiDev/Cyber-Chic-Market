@@ -1,4 +1,5 @@
 const categoryModel = require("./../../models/Category");
+const productModel = require("./../../models/Product");
 
 exports.createCategory = async (req, res, next) => {
   try {
@@ -14,6 +15,28 @@ exports.createCategory = async (req, res, next) => {
 
     const category = await categoryModel.create({ title, href });
     return res.status(201).json(category);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getCategory = async (req, res, next) => {
+  try {
+    const { href } = req.params;
+
+    const category = await categoryModel.findOne({ href });
+    if (!category) {
+      return res.status(404).json("دسته بندی مورد نظر یافت نشد");
+    }
+
+    const categoryProducts = await productModel.find({
+      category: category._id,
+    });
+    if (!categoryProducts) {
+      return res.status(404).json("محصولی یافت نشد");
+    }
+
+    return res.json(categoryProducts);
   } catch (err) {
     next(err);
   }
