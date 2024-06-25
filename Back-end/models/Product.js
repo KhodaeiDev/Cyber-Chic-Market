@@ -13,13 +13,18 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  href: {
+  brand: {
     type: String,
     required: true,
   },
   category: {
     type: mongoose.Types.ObjectId,
     ref: "Category",
+    required: true,
+  },
+  subCategory: {
+    type: mongoose.Types.ObjectId,
+    ref: "SubCategory",
     required: true,
   },
   color: {
@@ -55,7 +60,6 @@ const schema = mongoose.Schema({
   },
   Bluetooth: {
     type: Boolean,
-    default: true,
     required: false,
   },
   sendingTime: {

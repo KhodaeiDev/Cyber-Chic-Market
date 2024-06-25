@@ -6,8 +6,9 @@ exports.addProduct = async (req, res, next) => {
       name,
       title,
       description,
-      href, //* کاور و قاب و شارژر
       category, //* دسته بندی
+      brand,
+      subCategory,
       color,
       price,
       resolution, //* رزولوشن تصویر
@@ -38,8 +39,9 @@ exports.addProduct = async (req, res, next) => {
       name,
       title,
       description,
-      href,
       category,
+      brand,
+      subCategory,
       cover: {
         path: mediaUrlPath,
         filename: req.files.cover[0].filename,
