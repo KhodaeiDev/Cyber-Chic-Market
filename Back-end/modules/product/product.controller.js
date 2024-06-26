@@ -62,3 +62,20 @@ exports.addProduct = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getProduct = async (req, res, next) => {
+  try {
+    const { productID } = req.params;
+    if (!productID) {
+      throw new Error("محصول مورد نظر یافت نشد");
+    }
+    const product = await productModel.findById(productID);
+    if (!product) {
+      throw new Error("محصول مورد نظر یافت نشد");
+    }
+
+    return res.json(product);
+  } catch (err) {
+    next(err);
+  }
+};

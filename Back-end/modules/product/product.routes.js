@@ -20,4 +20,6 @@ router.route("/addProduct").post(
   controller.addProduct
 );
 
+router.route("/:productID").get(controller.getProduct);
+
 module.exports = router;
