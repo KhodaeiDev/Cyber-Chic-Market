@@ -11,6 +11,7 @@ exports.addProduct = async (req, res, next) => {
       subCategory,
       color,
       price,
+      discount,
       resolution, //* رزولوشن تصویر
       ability, //* قابلیت
       size,
@@ -35,6 +36,9 @@ exports.addProduct = async (req, res, next) => {
 
     const mediaUrlPath = `/images/product/${req.files.cover[0].filename}`;
 
+    //* Products Discount
+    const discountPrice = price - (price * discount) / 100;
+
     await productModel.create({
       name,
       title,
@@ -48,7 +52,8 @@ exports.addProduct = async (req, res, next) => {
       },
       images: imagesname,
       color,
-      price,
+      price: discountPrice,
+      discount,
       resolution,
       size,
       ability,
