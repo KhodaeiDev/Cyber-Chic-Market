@@ -1,0 +1,428 @@
+import { useState } from "react";
+import logo from "../assets/logo.png";
+import Ullistmenu from "../components/Ullistmenu.jsx";
+
+function Header_mobile() {
+  const dbmenu = [
+    {
+      id: 1,
+      title: "موبایل",
+      menu: [
+        {
+          id: 1,
+          title: "لوازم جانبی",
+          menu: [
+            {
+              id: 1,
+              title: "کیف گوشی",
+            },
+            {
+              id: 2,
+              title: "کاورگوشی",
+            },
+            {
+              id: 3,
+              title: "شارزر همراه",
+            },
+            {
+              id: 4,
+              title: "گاردگوشی",
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: "برندترین ها",
+          menu: [
+            {
+              id: 1,
+              title: "اپل",
+            },
+            {
+              id: 2,
+              title: "سامسونگ",
+            },
+            {
+              id: 3,
+              title: "هوآوی",
+            },
+            {
+              id: 4,
+              title: "شیائومی",
+            },
+          ],
+        },
+        {
+          id: 3,
+          title: "سیستم عامل",
+          menu: [
+            {
+              id: 1,
+              title: "اندروید",
+            },
+            {
+              id: 2,
+              title: "آی او اس",
+            },
+            {
+              id: 3,
+              title: "ویندوز",
+            },
+          ],
+        },
+        {
+          id: 4,
+          title: "گوشی براساس قیمت",
+          menu: [
+            {
+              id: 1,
+              title: "گوشی تا 2 میلیون تومان",
+            },
+            {
+              id: 2,
+              title: "گوشی تا 5 میلیون تومان",
+            },
+            {
+              id: 3,
+              title: "گوشی تا 7 میلیون تومان",
+            },
+            {
+              id: 4,
+              title: "گوشی تا 15 میلیون تومان",
+            },
+            {
+              id: 5,
+              title: "گوشی بالای 15 میلیون تومان",
+            },
+          ],
+        },
+        {
+          id: 5,
+          title: "گوشی بر اساس حافضه داخلی",
+          menu: [
+            {
+              id: 1,
+              title: "گوشی تا 16 گیگابایت",
+            },
+            {
+              id: 2,
+              title: "گوشی تا 32 گیگابایت",
+            },
+            {
+              id: 3,
+              title: "گوشی تا 64 گیگابایت",
+            },
+            {
+              id: 4,
+              title: "گوشی تا 128 گیگابایت",
+            },
+            {
+              id: 5,
+              title: "گوشی تا 256 گیگابایت",
+            },
+          ],
+        },
+        {
+          id: 6,
+          title: "رزولوشن عکس",
+          menu: [
+            {
+              id: 1,
+              title: "تا 13 پیکسل",
+            },
+            {
+              id: 2,
+              title: "تا 16 پیکسل",
+            },
+            {
+              id: 3,
+              title: "تا 48 پیکسل",
+            },
+            {
+              id: 4,
+              title: "تا 64 پیکسل",
+            },
+            {
+              id: 5,
+              title: "تا 128 پیکسل",
+            },
+          ],
+        },
+        {
+          id: 7,
+          title: "گوشی براساس کاربری",
+          menu: [
+            {
+              id: 1,
+              title: "گوشی اقتصادی",
+            },
+            {
+              id: 2,
+              title: "گوشی میان رده",
+            },
+            {
+              id: 3,
+              title: "گوشی دانش آموزی",
+            },
+            {
+              id: 4,
+              title: "گوشی گیمینگ",
+            },
+            {
+              id: 5,
+              title: "گوشی پرچمدار",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "لپ تاپ",
+      menu: [
+        {
+          id: 1,
+          title: "لوازم جانبی",
+          menu: [
+            {
+              id: 1,
+              title: "کیف لپتاپ",
+            },
+            {
+              id: 2,
+              title: "کاور لپتاپ",
+            },
+            {
+              id: 3,
+              title: "شارزر لپتاپ",
+            },
+            {
+              id: 4,
+              title: "فن لپ تاپ",
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: "برندترین ها",
+          menu: [
+            {
+              id: 1,
+              title: "ایسوس",
+            },
+            {
+              id: 2,
+              title: "سامسونگ",
+            },
+            {
+              id: 3,
+              title: "اچ پی",
+            },
+            {
+              id: 4,
+              title: "اپل",
+            },
+          ],
+        },
+        {
+          id: 3,
+          title: "سیستم عامل",
+          menu: [
+            {
+              id: 1,
+              title: "لینوکس",
+            },
+            {
+              id: 2,
+              title: "آی او اس",
+            },
+            {
+              id: 3,
+              title: "ویندوز",
+            },
+          ],
+        },
+        {
+          id: 4,
+          title: "لپ تاپ بر اساس قیمت",
+          menu: [
+            {
+              id: 1,
+              title: "لپ تاپ تا 15 میلیون تومان",
+            },
+            {
+              id: 2,
+              title: "لپ تاپ تا 25 میلیون تومان",
+            },
+            {
+              id: 3,
+              title: "لپ تاپ تا 40 میلیون تومان",
+            },
+            {
+              id: 4,
+              title: "لپ تاپ بالای 40 میلیون تومان",
+            },
+          ],
+        },
+        {
+          id: 5,
+          title: "لپ تاپ بر اساس حافظه داخلی",
+          menu: [
+            {
+              id: 1,
+              title: "لپ تاپ تا 16 گیگابایت",
+            },
+            {
+              id: 1,
+              title: "لپ تاپ تا 32 گیگابایت",
+            },
+            {
+              id: 1,
+              title: "لپ تاپ تا 64 گیگابایت",
+            },
+            {
+              id: 1,
+              title: "لپ تاپ تا 128 گیگابایت",
+            },
+            {
+              id: 1,
+              title: "لپ تاپ تا 256 گیگابایت",
+            },
+          ],
+        },
+        {
+          id: 6,
+          title: "ابعاد صفحه نمایش",
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: "ساعت هوشمند",
+    },
+    {
+      id: 4,
+      title: "مودم",
+    },
+    {
+      id: 5,
+      title: "تبلت",
+    },
+    {
+      id: 6,
+      title: "کامپیوتر",
+    },
+    {
+      id: 7,
+      title: "آیپد اپل",
+    },
+    {
+      id: 8,
+      title: "تلوزیون",
+    },
+    {
+      id: 9,
+      title: "دمو محصولات",
+    },
+    {
+      id: 10,
+      title: "تخفیفات و پیشنهادات",
+    },
+    {
+      id: 11,
+      title: "مسای امن",
+    },
+    {
+      id: 12,
+      title: "مسای پلاس",
+    },
+    {
+      id: 13,
+      title: "مسای کلاب",
+    },
+    {
+      id: 14,
+      title: "مسای پی",
+    },
+    {
+      id: 15,
+      title: "سوالی دارید؟",
+    },
+    {
+      id: 16,
+      title: "فروشده شوید",
+    },
+  ];
+  const [flagmenu, setflagmenu] = useState(false);
+  return (
+    <nav className="navbar shadow-md shadow-gray-700 rounded-b-xl ">
+      <div className="container mx-auto   flex-row-reverse">
+       
+        <div
+          dir="rtl"
+          className={` ${
+            flagmenu ? " -translate-x-[300px] sm:-translate-x-[250px] md:-translate-x-[200px] lg:-translate-x-[0px]  " : ""
+          } w-full transition-all flex flex-col gap-3 justify-between `}
+        >
+          <div 
+           onClick={() => setflagmenu(!flagmenu)}
+           className={` ${flagmenu ? "  cursor-pointer pointer-events-auto " : " pointer-events-none "} flex items-center justify-end  relative  w-full h-[30px] `}>
+          <button
+            onClick={() => setflagmenu(true)}
+            className={` ${flagmenu ? 'hidden': " pointer-events-auto"}  w-[35px] h-[35px] bg-[#61bec3]  mask mask-hexagon flex justify-center items-center`}
+            type="button"
+          >
+            <span className="  text-red-800">-</span>
+            <span className="  text-red-800">-</span>
+            <span className="  text-red-800">-</span>
+          </button>
+
+          </div>
+
+          <div className=" flex items-center gap-3 justify-between">
+            <form action="#" className="mx-auto">
+              <input
+                className=" w-[250px] sm:w-[350px] md:w-[500px] h-[40px] bg-gray-200  outline-none rounded-lg px-2"
+                type="text"
+                placeholder="جستجو ..."
+              />
+              <button type="submit">
+                <img src="assets/img/search.png" alt="" />
+              </button>
+            </form>
+
+            <div className={` ${flagmenu ? 'sm:hidden': ""}  flex gap-2 items-center justify-center`}>
+              <a href="#">سبد</a>
+              <a href="#">login</a>
+           
+          </div>
+        </div>
+        </div>
+
+        {flagmenu && (
+          <div
+            className={`lg:hidden  bg-slate-50   w-[300px] h-screen   transition-allr transform-gpu  fixed top-0 right-0 rounded-l-xl`}
+            id="navigation"
+          >
+            <div className=" text-center">
+              <a href="#">
+                <img className=" mx-auto mt-1" src={logo} alt="" />
+              </a>
+            </div>
+
+            <div className=" w-full  h-screen overflow-scroll overflow-y-auto">
+              <ul dir="rtl" className="flex w-full flex-col">
+                {dbmenu.map((menu) => (
+                  <Ullistmenu db={dbmenu} key={menu.id} {...menu} />
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </nav>
+  );
+}
+
+export default Header_mobile;
