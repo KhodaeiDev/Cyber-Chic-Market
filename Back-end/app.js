@@ -5,6 +5,7 @@ require("dotenv").config();
 const path = require("path");
 const authRouter = require("./modules/auth/auth.routes");
 const categoryRouter = require("./modules/category/category.routes");
+const subCategoryRouter = require("./modules/category/subCategory.routes");
 const productRouter = require("./modules/product/product.routes");
 
 const app = express();
@@ -25,6 +26,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 //* Routes
 app.use("/auth", authRouter);
 app.use("/category", categoryRouter);
+app.use("/subCategory", subCategoryRouter);
 app.use("/products", productRouter);
 
 module.exports = app;
