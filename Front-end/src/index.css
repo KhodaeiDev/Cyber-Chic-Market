@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.slider_home_product .mySwiper{
+  @apply w-[95%] mx-auto h-[250px] sm:h-[280px] md:h-[330px] lg:h-[370px] xl:h-[450px] relative my-3 flex flex-col justify-center items-center
+}
+
+
+.slider_home_product .swiper-button-prev {
+  @apply w-[30px] h-[30px] absolute top-[90%] left-[85%] lg:left-[90%]  overflow-hidden rounded-full  bg-[#249f8f] text-white
+}
+
+.slider_home_product .swiper-button-next {
+  @apply w-[30px] h-[30px] absolute top-[90%] left-[92%] lg:left-[95%]  overflow-hidden rounded-full  bg-[#249f8f] text-white
+}
+
+.slider_home_product .swiper-pagination{
+  @apply   hidden md:flex  w-[100px] h-[100px] justify-center items-center bg-sky-50  rounded-full z-20  mx-auto absolute top-0 left-[78%] lg:left-[85%] before:contain-content before:w-[50px] before:h-[50px]  before:absolute before:top-[1px] before:-left-[50px] before:rounded-tr-[100px] before:shadow-shad-white-right    
+  after:contain-content after:w-[50px] after:h-[50px] after:absolute after:top-[1px] after:-right-[50px] after:rounded-tl-[100px] after:shadow-shad-white
+}
+.slider_home_product .swiper-pagination-bullet{
+  @apply z-20
+}
+
