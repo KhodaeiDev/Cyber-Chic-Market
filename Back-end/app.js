@@ -7,6 +7,7 @@ const authRouter = require("./modules/auth/auth.routes");
 const categoryRouter = require("./modules/category/category.routes");
 const subCategoryRouter = require("./modules/category/subCategory.routes");
 const productRouter = require("./modules/product/product.routes");
+const profileRouter = require("./modules/profile/profile.routes");
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/auth", authRouter);
 app.use("/category", categoryRouter);
 app.use("/subCategory", subCategoryRouter);
 app.use("/products", productRouter);
+app.use("/profile", profileRouter);
 
 module.exports = app;

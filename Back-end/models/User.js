@@ -18,6 +18,26 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+  profilePicture: {
+    type: String,
+    required: false,
+  },
+  fullName: {
+    type: String,
+    required: false,
+  },
+  Email: {
+    type: String,
+    required: false,
+  },
+  cardNumber: {
+    type: String,
+    required: false,
+  },
+  shabaNumber: {
+    type: String,
+    required: false,
+  },
 });
 
 const model = mongoose.model("User", schema);
