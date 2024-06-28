@@ -26,16 +26,16 @@ const schema = mongoose.Schema({
     type: String,
     required: false,
   },
-  Email: {
+  email: {
     type: String,
     required: false,
   },
   cardNumber: {
-    type: String,
+    type: Number,
     required: false,
   },
   shabaNumber: {
-    type: String,
+    type: Number,
     required: false,
   },
 });
