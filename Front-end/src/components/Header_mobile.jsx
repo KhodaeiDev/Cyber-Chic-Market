@@ -1,6 +1,11 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
+import { FaUserAlt } from "react-icons/fa";
+import { SlBasket } from "react-icons/sl";
+import { IoIosSearch } from "react-icons/io";
+import { FcMenu } from "react-icons/fc";
 import Ullistmenu from "../components/Ullistmenu.jsx";
+import { NavLink } from "react-router-dom";
 
 function Header_mobile() {
   const dbmenu = [
@@ -355,53 +360,34 @@ function Header_mobile() {
   ];
   const [flagmenu, setflagmenu] = useState(false);
   return (
-    <nav className="navbar shadow-md shadow-gray-700 rounded-b-xl ">
-      <div className="container mx-auto   flex-row-reverse">
+    <nav className="  w-[100%] h-[105px] p-2 shadow-md shadow-sky-300 rounded-b-xl fixed top-0 left-0 z-[100]  bg-sky-50  ">
+      <div className="container mx-auto flex-row-reverse  ">
        
         <div
           dir="rtl"
           className={` ${
             flagmenu ? " -translate-x-[300px] sm:-translate-x-[250px] md:-translate-x-[200px] lg:-translate-x-[0px]  " : ""
-          } w-full transition-all flex flex-col gap-3 justify-between `}
+          } w-full transition-all flex flex-col items-center  gap-3 justify-between `}
         >
           <div 
            onClick={() => setflagmenu(!flagmenu)}
            className={` ${flagmenu ? "  cursor-pointer pointer-events-auto " : " pointer-events-none "} flex items-center justify-end  relative  w-full h-[30px] `}>
           <button
             onClick={() => setflagmenu(true)}
-            className={` ${flagmenu ? 'hidden': " pointer-events-auto"}  w-[35px] h-[35px] bg-[#61bec3]  mask mask-hexagon flex justify-center items-center`}
+            className={` ${flagmenu ? 'hidden': " pointer-events-auto"}  w-[40px] h-[40px] bg-sky-300 text-sky-900  mask mask-hexagon flex justify-center items-center`}
             type="button"
           >
-            <span className="  text-red-800">-</span>
-            <span className="  text-red-800">-</span>
-            <span className="  text-red-800">-</span>
+            <FcMenu size={25}  />
           </button>
 
           </div>
 
-          <div className=" flex items-center gap-3 justify-between">
-            <form action="#" className="mx-auto">
-              <input
-                className=" w-[250px] sm:w-[350px] md:w-[500px] h-[40px] bg-gray-200  outline-none rounded-lg px-2"
-                type="text"
-                placeholder="جستجو ..."
-              />
-              <button type="submit">
-                <img src="assets/img/search.png" alt="" />
-              </button>
-            </form>
-
-            <div className={` ${flagmenu ? 'sm:hidden': ""}  flex gap-2 items-center justify-center`}>
-              <a href="#">سبد</a>
-              <a href="#">login</a>
-           
-          </div>
         </div>
-        </div>
+         
 
         {flagmenu && (
           <div
-            className={`lg:hidden  bg-slate-50   w-[300px] h-screen   transition-allr transform-gpu  fixed top-0 right-0 rounded-l-xl`}
+            className={`lg:hidden  bg-slate-50   w-[300px] h-screen   transition-allr transform-gpu  fixed top-0 right-0 rounded-l-xl !z-[100] `}
             id="navigation"
           >
             <div className=" text-center">
@@ -421,6 +407,24 @@ function Header_mobile() {
         )}
 
       </div>
+      <div className=" container  mx-auto  top-[20px] relative  flex  items-center gap-3 justify-between">
+            <form action="#" className="mx-auto relative">
+              <input
+                className=" pr-[40px]  w-[300px] sm:w-[350px] md:w-[500px] h-[40px] bg-gray-200  outline-none rounded-lg px-2"
+                type="text"
+                placeholder="جستجو ..."
+              />
+              <button className=" h-[35px] w-[35px] absolute top-[2.5px] right-0 mask mask-hexagon flex justify-center items-center bg-sky-300 text-sky-900 "  type="submit">
+              <IoIosSearch size={28}  />
+              </button>
+            </form>
+
+            <div className={` ${flagmenu ? 'sm:hidden': ""}  w-max  flex gap-3 items-center justify-center`}>
+              <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}><SlBasket size={20}  /></NavLink>
+              <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}><FaUserAlt size={20}  /></NavLink>
+              <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}>dark</NavLink>
+          </div>
+        </div>
     </nav>
   );
 }
