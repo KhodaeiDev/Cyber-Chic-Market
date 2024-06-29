@@ -1,4 +1,6 @@
 const productModel = require("./../../models/Product");
+const favoritModel = require("./../../models/FavoritProduct");
+const userModel = require("./../../models/User");
 
 exports.addProduct = async (req, res, next) => {
   try {
@@ -80,6 +82,62 @@ exports.getProduct = async (req, res, next) => {
     }
 
     return res.json(product);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.addToFavorit = async (req, res, next) => {
+  try {
+    const { productID } = req.params;
+    const userID = req.user._id;
+
+    const product = await productModel.findOne({ _id: productID });
+    if (!product) {
+      return res.status(404).json("Producy Not Found");
+    }
+
+    const user = await userModel.findOne({ _id: userID });
+    if (!user) {
+      return res.status(404).json("User Not Found");
+    }
+
+    await favoritModel.create({ product: productID, user: userID });
+    return res
+      .status(201)
+      .json("محصول مورد نظر به لیست علاقه مندی ها اضافه شد");
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.removeFavorites = async (req, res, next) => {
+  try {
+    const { productID } = req.params;
+    const userID = req.user._id;
+
+    const product = await productModel.findOne({ _id: productID });
+    if (!product) {
+      return res.status(404).json("Product Not Found");
+    }
+
+    const user = await userModel.findOne({ _id: userID });
+    if (!user) {
+      return res.status(404).json("User Not Found");
+    }
+
+    const isProductInFavorit = await favoritModel.findOne({
+      product: productID,
+    });
+    if (!isProductInFavorit) {
+      return res
+        .status(404)
+        .json("محصول مورد نظر در لیست علاقه مندی ها وجود ندارد ");
+    }
+
+    await favoritModel.findOneAndDelete({ product: productID, user: userID });
+
+    return res.json("محصول مورد نظر از لیست علاقه مندی ها حذف شد");
   } catch (err) {
     next(err);
   }

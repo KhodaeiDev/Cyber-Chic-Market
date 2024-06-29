@@ -1,6 +1,7 @@
 const express = require("express");
 const controller = require("./product.controller");
 const { multerStorage } = require("./../../middleware/uoloader");
+const { authMiddleware } = require("./../../middleware/auth");
 
 const upload = multerStorage("public/images/product");
 
@@ -19,6 +20,14 @@ router.route("/addProduct").post(
   ]),
   controller.addProduct
 );
+
+router
+  .route("/addToFavorit/:productID")
+  .post(authMiddleware, controller.addToFavorit);
+
+router
+  .route("/removeFavorit/:productID")
+  .post(authMiddleware, controller.removeFavorites);
 
 router.route("/:productID").get(controller.getProduct);
 
