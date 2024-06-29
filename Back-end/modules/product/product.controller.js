@@ -142,3 +142,23 @@ exports.removeFavorites = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.myFavorites = async (req, res, next) => {
+  try {
+    const userID = req.user._id;
+
+    const user = await userModel.findOne({ _id: userID });
+    if (!user) {
+      return res.status(404).json("User Not Found");
+    }
+
+    const favorites = await favoritModel.find({ user: userID }).populate({
+      path: "product",
+      select: "name _id cover price sendingTime",
+    });
+
+    return res.json(favorites);
+  } catch (err) {
+    next(err);
+  }
+};

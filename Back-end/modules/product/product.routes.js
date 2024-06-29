@@ -29,6 +29,8 @@ router
   .route("/removeFavorit/:productID")
   .post(authMiddleware, controller.removeFavorites);
 
+router.route("/favorites").get(authMiddleware, controller.myFavorites);
+
 router.route("/:productID").get(controller.getProduct);
 
 module.exports = router;
