@@ -13,4 +13,15 @@ const editValidator = yup.object({
   shabaNumber: yup.number().optional(),
 });
 
-module.exports = { editValidator };
+const resetPasswordValidator = yup.object({
+  password: yup
+    .string()
+    .min(8, "رمز عبور باید حداقل 8 کاراکتر داشته باشد")
+    .max(45, "رمز عبور باید حداکثر 45 کاراکتر داشته باشد")
+    .required("رمز عبور اجباری است"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "رمز عبود همخوانی ندارد"),
+});
+
+module.exports = { editValidator, resetPasswordValidator };
