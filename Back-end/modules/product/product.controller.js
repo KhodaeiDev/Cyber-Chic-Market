@@ -5,7 +5,7 @@ const userModel = require("./../../models/User");
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const products = await productModel.find({});
+    const products = await productModel.find({}).sort({ _id: -1 });
     return res.json(products);
   } catch (err) {
     next(err);
