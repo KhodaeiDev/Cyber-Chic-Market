@@ -33,4 +33,7 @@ router.route("/favorites").get(authMiddleware, controller.myFavorites);
 
 router.route("/:productID").get(controller.getProduct);
 
+// * Sort routes
+router.route("/priceSort/:subcategoryhref").get(controller.priceSortProducts);
+
 module.exports = router;
