@@ -7,6 +7,8 @@ const upload = multerStorage("public/images/product");
 
 const router = express.Router();
 
+router.route("/").get(controller.getAllProducts);
+
 router.route("/addProduct").post(
   upload.fields([
     {

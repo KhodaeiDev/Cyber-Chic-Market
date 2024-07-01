@@ -3,6 +3,15 @@ const subCategoryModel = require("./../../models/SubCategory");
 const favoritModel = require("./../../models/FavoritProduct");
 const userModel = require("./../../models/User");
 
+exports.getAllProducts = async (req, res, next) => {
+  try {
+    const products = await productModel.find({});
+    return res.json(products);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.addProduct = async (req, res, next) => {
   try {
     const {
@@ -27,10 +36,9 @@ exports.addProduct = async (req, res, next) => {
     // Todo validator
 
     if (!req.files) {
-      return ServiceWorker.status(401).json(
-        "لطفا تصویر محصول خود را اپلود کنید"
-      );
+      return res.status(401).json("لطفا تصویر محصول خود را اپلود کنید");
     }
+
     const imagesname = [];
     req.files.images.forEach((file) => {
       const mediaUrlPath = `/images/product/${file.filename}`;
@@ -55,7 +63,8 @@ exports.addProduct = async (req, res, next) => {
       },
       images: imagesname,
       color,
-      price: discountPrice,
+      price,
+      discountPrice,
       discount,
       resolution,
       size,

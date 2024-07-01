@@ -43,6 +43,10 @@ const schema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  discountPrice: {
+    type: Number,
+    required: true,
+  },
   discount: {
     type: Number,
     required: true,
