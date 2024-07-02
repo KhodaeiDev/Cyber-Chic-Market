@@ -1,12 +1,45 @@
 const productModel = require("./../../models/Product");
 const subCategoryModel = require("./../../models/SubCategory");
+const categoryModel = require("./../../models/Category");
 const favoritModel = require("./../../models/FavoritProduct");
 const userModel = require("./../../models/User");
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const products = await productModel.find({}).sort({ _id: -1 });
-    return res.json(products);
+    const categories = await categoryModel.find();
+    const products = await productModel.find().sort({ _id: -1 });
+
+    const categorizedProducts = categories.map((category) => {
+      return {
+        title: category.title,
+        items: products
+          .filter(
+            (product) => product.category.toString() === category._id.toString()
+          )
+          .map((product) => ({
+            id: product._id,
+            name: product.name,
+            title: product.title,
+            description: product.description,
+            brand: product.brand,
+            subCategory: product.subCategory,
+            cover: product.cover,
+            images: product.images,
+            color: product.color,
+            price: product.price,
+            discountPrice: product.discountPrice,
+            discount: product.discount,
+            resolution: product.resolution,
+            size: product.size,
+            ability: product.ability,
+            operatingSystem: product.operatingSystem,
+            technology: product.technology,
+            Bluetooth: product.Bluetooth,
+            sendingTime: product.sendingTime,
+          })),
+      };
+    });
+    return res.json(categorizedProducts);
   } catch (err) {
     next(err);
   }
