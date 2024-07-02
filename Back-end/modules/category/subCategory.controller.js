@@ -7,7 +7,7 @@ exports.createSubCategory = async (req, res, next) => {
     //Todo validator
 
     const isExistSubCategory = await subCategoryModel.findOne({
-      $or: { href, title },
+      $and: { title, category },
     });
     if (isExistSubCategory) {
       return res.status(401).json("Sub Category is already exist");
