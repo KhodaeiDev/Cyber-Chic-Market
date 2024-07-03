@@ -1,5 +1,37 @@
 const categoryModel = require("./../../models/Category");
 const productModel = require("./../../models/Product");
+const subCategoryModel = require("./../../models/SubCategory");
+
+exports.getCategoryAndSubCategory = async (req, res, next) => {
+  try {
+    const categories = await categoryModel.find();
+    const subCategories = await subCategoryModel.find({});
+
+    const categorizedSubCatedory = categories.map((category) => {
+      return {
+        title: category.title,
+        items: subCategories
+          .filter(
+            (subCategory) =>
+              subCategory.category.toString() === category._id.toString()
+          )
+          .map((subCategory) => ({
+            _id: subCategory._id,
+            title: subCategory.title,
+            href: subCategory.href,
+            category: subCategory.category,
+          })),
+      };
+    });
+
+    if (!categorizedSubCatedory) {
+      return res.status(404).json("Sub Category not Exist");
+    }
+    res.status(200).json({ categorizedSubCatedory });
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.createCategory = async (req, res, next) => {
   try {
