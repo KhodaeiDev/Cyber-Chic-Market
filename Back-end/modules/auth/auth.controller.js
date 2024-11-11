@@ -3,24 +3,9 @@ const bcrypt = require("bcrypt");
 const { registerValidator, loginValidator } = require("./auth.validator");
 const { createAccessToken } = require("../../utils/auth");
 
-exports.showViewRegister = async (req, res) => {
-  //Codes
-};
-
 exports.register = async (req, res, next) => {
   try {
     const { username, phone, password, confirmPassword } = req.body;
-
-    //* Validate Body
-    await registerValidator.validate(
-      {
-        username,
-        phone,
-        password,
-        confirmPassword,
-      },
-      { abortEarly: true }
-    );
 
     //* Exist User
     const isExistUser = await userModel.findOne({ username });
@@ -50,14 +35,9 @@ exports.register = async (req, res, next) => {
   }
 };
 
-exports.showViewLogin = async (req, res) => {
-  //Codes
-};
-
 exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    await loginValidator.validate({ username, password }, { abortEarly: true });
 
     const user = await userModel.findOne({ username });
     if (!user) {
