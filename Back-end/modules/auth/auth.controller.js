@@ -5,7 +5,7 @@ const { createAccessToken } = require("../../utils/auth");
 
 exports.register = async (req, res, next) => {
   try {
-    const { username, phone, password, confirmPassword } = req.body;
+    const { username, phone, password } = req.body;
 
     //* Exist User
     const isExistUser = await userModel.findOne({ username });
