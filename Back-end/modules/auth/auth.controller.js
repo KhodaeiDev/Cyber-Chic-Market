@@ -1,7 +1,7 @@
 const userModel = require("./../../models/User");
 const bcrypt = require("bcrypt");
-const { registerValidator, loginValidator } = require("./auth.validator");
 const { createAccessToken } = require("../../utils/auth");
+const { successResponse, errorResponse } = require("../../helpers/responses");
 
 exports.register = async (req, res, next) => {
   try {
@@ -10,7 +10,7 @@ exports.register = async (req, res, next) => {
     //* Exist User
     const isExistUser = await userModel.findOne({ username });
     if (isExistUser) {
-      return res.status(403).json({ message: "Username Already exist" });
+      return errorResponse(res, 403, "Username Already exist");
     }
 
     const userCount = await userModel.countDocuments();
@@ -27,9 +27,14 @@ exports.register = async (req, res, next) => {
     });
 
     //*create USER Token
-    const accessToken = await createAccessToken(newUser._id);
+    const accessToken = await createAccessToken(newUser._id, newUser.role);
+    newUser.password = undefined;
 
-    return res.status(201).json({ accessToken: accessToken });
+    return successResponse(res, 201, {
+      message: "User Registered Successfully",
+      accessToken: accessToken,
+      newUser,
+    });
   } catch (err) {
     next(err);
   }
@@ -41,15 +46,31 @@ exports.login = async (req, res, next) => {
 
     const user = await userModel.findOne({ username });
     if (!user) {
-      return res.status(404).json("Invalid Data");
+      return errorResponse(res, 401, "Invalid Data");
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
-      return res.status(401).json("Invalid Data");
+      return errorResponse(res, 401, "Invalid Data");
     }
-    const token = await createAccessToken(user._id);
-    return res.json({ accessToken: token });
+
+    const accessToken = await createAccessToken(user._id, user.role);
+
+    return successResponse(res, 200, {
+      message: "User Logined Successfully",
+      accessToken: accessToken,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getMe = async (req, res, next) => {
+  try {
+    const user = req.user;
+    user.password = undefined;
+
+    return successResponse(res, 200, { user });
   } catch (err) {
     next(err);
   }

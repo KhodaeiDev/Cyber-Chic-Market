@@ -1,21 +1,43 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("./../models/User");
+const banUserModel = require("./../models/ban");
+const { successResponse, errorResponse } = require("../helpers/responses");
 
-exports.authMiddleware = async (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ message: "Token not found" });
-  }
+exports.auth = async (req, res, next) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded) {
-      return res.status(401).json({ message: "Token Expired already" });
+    const token = req.headers["authorization"]?.split(" ");
+    const tokenValue = token[1];
+
+    if (token[0] !== "Bearer") {
+      return errorResponse(res, 400, {
+        message: "Plz Add Bearer in first of Token",
+      });
     }
 
-    const user = await userModel.findById(decoded.id);
+    if (!tokenValue) {
+      return errorResponse(res, 401, {
+        message: "Token not found , Plz Login or Register first",
+      });
+    }
+
+    const decoded = await jwt.decode(tokenValue, process.env.JWT_ACCESS_SECRET);
+
+    if (!decoded) {
+      return errorResponse(res, 401, {
+        message: "Token Expired already, Plz Login first",
+      });
+    }
+
+    const userId = decoded.id;
+
+    const user = await userModel.findById(userId);
     if (!user) {
-      return res.status(401).json({ message: "User Not found" });
+      return errorResponse(res, 401, { message: "User Not found" });
+    }
+
+    const isBanned = await banUserModel.findOne({ phone: user.phone });
+    if (isBanned) {
+      return errorResponse(res, 401, { message: "User Banned" });
     }
 
     req.user = user;
