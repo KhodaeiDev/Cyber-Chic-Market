@@ -57,6 +57,9 @@
           },
           "403": {
             "description": "Username Already exist"
+          },
+          "401": {
+            "description": "phone Number Blocked"
           }
         }
       }

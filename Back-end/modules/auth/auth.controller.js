@@ -1,4 +1,5 @@
 const userModel = require("./../../models/User");
+const banModel = require("./../../models/ban");
 const bcrypt = require("bcrypt");
 const { createAccessToken } = require("../../utils/auth");
 const { successResponse, errorResponse } = require("../../helpers/responses");
@@ -6,6 +7,11 @@ const { successResponse, errorResponse } = require("../../helpers/responses");
 exports.register = async (req, res, next) => {
   try {
     const { username, phone, password } = req.body;
+
+    const isBanUser = await banModel.findOne({ phone });
+    if (isBanUser) {
+      return errorResponse(res, 401, "This phone Number Blocked");
+    }
 
     //* Exist User
     const isExistUser = await userModel.findOne({ username });
