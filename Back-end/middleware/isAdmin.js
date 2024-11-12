@@ -6,5 +6,5 @@ exports.isAdmin = async (req, res, next) => {
   if (user.role === "ADMIN") {
     return next();
   }
-  return errorResponse(res, 404, "UnAuthorize");
+  return errorResponse(res, 401, "UnAuthorize... (Admin Token is not valid)");
 };

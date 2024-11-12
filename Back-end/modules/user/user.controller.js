@@ -48,9 +48,6 @@ exports.createAddress = async (req, res, next) => {
       },
       { new: true }
     );
-    if (!updateAddress) {
-      return errorResponse(res, 404, "User Not Found");
-    }
 
     updateAddress.password = undefined;
     return successResponse(res, 200, {

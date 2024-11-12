@@ -64,7 +64,6 @@
         }
       }
     },
-
     "/auth/login": {
       "post": {
         "tags": ["Auth 🔐"],
@@ -100,7 +99,6 @@
         }
       }
     },
-
     "/auth/me": {
       "get": {
         "tags": ["Auth 🔐"],
@@ -120,6 +118,127 @@
           },
           "403": {
             "description": "The user has already been banned(Blocked)"
+          }
+        }
+      }
+    },
+
+    "/users/me/addresses": {
+      "post": {
+        "tags": ["Users 👤"],
+        "summary": "add address",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "postalCode": {
+                    "type": "string"
+                  },
+                  "coordinates": {
+                    "type": "object",
+                    "properties": {
+                      "lat": {
+                        "type": "number"
+                      },
+                      "lng": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "cityId": {
+                    "type": "number"
+                  },
+                  "provinceId": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "updated user containing addresses will be returned"
+          },
+          "409": {
+            "description": "Province Or City is Not Valid"
+          }
+        }
+      }
+    },
+    "/users/me/addresses/{addressId}": {
+      "delete": {
+        "tags": ["Users 👤"],
+        "summary": "delete address",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "addressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "updated user with addresses will be returned"
+          },
+          "404": {
+            "description": "Address Not Found!!"
+          }
+        }
+      }
+    },
+
+    "/users/ban/{userId}": {
+      "post": {
+        "tags": ["Admin Dashboard 📈"],
+        "summary": "Ban user and remove his/her account",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User banned successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }

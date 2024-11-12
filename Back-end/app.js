@@ -28,7 +28,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 //* Routes
 app.use("/auth", authRouter);
-app.use("/user", userRouter);
+app.use("/users", userRouter);
 app.use("/category", categoryRouter);
 app.use("/subCategory", subCategoryRouter);
 // app.use("/products", productRouter);
