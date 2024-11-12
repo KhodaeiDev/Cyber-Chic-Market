@@ -4,8 +4,16 @@ const addresSchema = new mongoose.Schema({
   name: { type: String, reqired: true },
   postalCode: { type: String, reqired: true },
   location: {
-    longitude: { type: Number, reqired: true },
-    latitude: { type: Number, reqired: true },
+    lon: { type: Number, reqired: true },
+    lat: { type: Number, reqired: true },
+  },
+  cityId: {
+    type: Number,
+    reqired: true,
+  },
+  provinceId: {
+    type: Number,
+    reqired: true,
   },
 });
 
