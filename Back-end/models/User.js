@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
 
+const addresSchema = new mongoose.Schema({
+  name: { type: String, reqired: true },
+  postalCode: { type: String, reqired: true },
+  location: {
+    longitude: { type: Number, reqired: true },
+    latitude: { type: Number, reqired: true },
+  },
+});
+
 const schema = mongoose.Schema(
   {
     username: {
@@ -39,6 +48,7 @@ const schema = mongoose.Schema(
       type: Number,
       required: false,
     },
+    addresses: [addresSchema],
   },
   { timestamps: true }
 );
