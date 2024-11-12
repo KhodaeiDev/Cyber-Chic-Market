@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "< Cyber-chic - Shop APIS 💚 >",
+    "description": "",
+    "version": "1.0.0"
+  },
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "User token for authentication: **Bearer [user_token]**"
+      }
+    }
+  },
+
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth 🔐"],
+        "summary": "For User Register",
+        "description": "Default OTP: 1111",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "mehranKhodaei"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "09123334444"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345678"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "example": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success Register User"
+          },
+          "403": {
+            "description": "Username Already exist"
+          }
+        }
+      }
+    },
+
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth 🔐"],
+        "summary": "For User Login",
+        "description": "For User Login with username and paassword",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "mehran"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user logged in successfully"
+          },
+          "401": {
+            "description": "Invalid Data (Username Or Password)"
+          }
+        }
+      }
+    },
+
+    "/auth/me": {
+      "get": {
+        "tags": ["Auth 🔐"],
+        "summary": "Get user's data with token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "user data will be returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "The user has already been banned(Blocked)"
+          }
+        }
+      }
+    }
+  }
+}

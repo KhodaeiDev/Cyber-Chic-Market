@@ -8,6 +8,7 @@ const categoryRouter = require("./modules/category/category.routes");
 const subCategoryRouter = require("./modules/category/subCategory.routes");
 // const productRouter = require("./modules/product/product.routes");
 // const profileRouter = require("./modules/profile/profile.routes");
+const swaggerRoutes = require("./modules/api-doc/swagger.routes");
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use("/category", categoryRouter);
 app.use("/subCategory", subCategoryRouter);
 // app.use("/products", productRouter);
 // app.use("/profile", profileRouter);
+app.use("/apis", swaggerRoutes);
 
 module.exports = app;

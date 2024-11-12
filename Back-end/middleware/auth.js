@@ -5,14 +5,21 @@ const { successResponse, errorResponse } = require("../helpers/responses");
 
 exports.auth = async (req, res, next) => {
   try {
-    const token = req.headers["authorization"]?.split(" ");
-    const tokenValue = token[1];
+    const token = req.headers["authorization"];
+    if (!token) {
+      return errorResponse(res, 401, {
+        message: "Token not found , Plz Login or Register first",
+      });
+    }
+    const validToken = token.split(" ");
 
-    if (token[0] !== "Bearer") {
-      return errorResponse(res, 400, {
+    if (validToken[0] !== "Bearer") {
+      return errorResponse(res, 401, {
         message: "Plz Add Bearer in first of Token",
       });
     }
+
+    const tokenValue = validToken[1];
 
     if (!tokenValue) {
       return errorResponse(res, 401, {
@@ -37,7 +44,9 @@ exports.auth = async (req, res, next) => {
 
     const isBanned = await banUserModel.findOne({ phone: user.phone });
     if (isBanned) {
-      return errorResponse(res, 401, { message: "User Banned" });
+      return errorResponse(res, 403, {
+        message: "The user has already been banned",
+      });
     }
 
     req.user = user;
