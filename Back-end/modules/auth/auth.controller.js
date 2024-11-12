@@ -14,9 +14,11 @@ exports.register = async (req, res, next) => {
     }
 
     //* Exist User
-    const isExistUser = await userModel.findOne({ username });
+    const isExistUser = await userModel.findOne({
+      $or: [{ username }, { phone }],
+    });
     if (isExistUser) {
-      return errorResponse(res, 403, "Username Already exist");
+      return errorResponse(res, 403, "Username Or Phone are Already exist");
     }
 
     const userCount = await userModel.countDocuments();
