@@ -17,7 +17,7 @@ import { NavLink } from "react-router-dom";
 
 function Slider_product_home() {
   return (
-    <div className="slider_home_product pt-[110px] " dir="ltr">
+    <div className=" w-full max-w-[1440px] slider_home_product pt-[10px] " dir="ltr">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -33,17 +33,17 @@ function Slider_product_home() {
         className="mySwiper"
       >
         <SwiperSlide>
-          <NavLink to={"/"}>
+          <NavLink to={"/category"}>
             <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={img1} />
           </NavLink>
         </SwiperSlide>
         <SwiperSlide>
-          <NavLink to={"/"}>
+          <NavLink to={"/category"}>
             <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={img2} />
           </NavLink>
         </SwiperSlide>
         <SwiperSlide>
-          <NavLink to={"/"}>
+          <NavLink to={"/category"}>
             <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={img3} />
           </NavLink>
         </SwiperSlide>
