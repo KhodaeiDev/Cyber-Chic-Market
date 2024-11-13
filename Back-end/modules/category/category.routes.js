@@ -1,11 +1,21 @@
 const express = require("express");
-const controller = require("./category.controller");
+const {
+  createCategory,
+  getCategoryAndSubCategory,
+  getCategoryProducts,
+} = require("./category.controller");
+const { auth } = require("../../middleware/auth");
+const { isAdmin } = require("../../middleware/isAdmin");
+const validator = require("../../middleware/validator");
+const { categoryValidator } = require("./category.validator");
 
 const router = express.Router();
 
-router.route("/").get(controller.getCategoryAndSubCategory);
+router
+  .route("/")
+  .post(auth, isAdmin, validator(categoryValidator), createCategory)
+  .get(controller.getCategoryAndSubCategory);
 
 router.route("/:href").get(controller.getCategoryProducts);
-router.route("/create").post(controller.createCategory);
 
 module.exports = router;
