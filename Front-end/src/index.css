@@ -2,17 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Vazirmatn', sans-serif;
+}
 .slider_home_product .mySwiper{
   @apply w-[95%] mx-auto h-[250px] sm:h-[280px] md:h-[330px] lg:h-[370px] xl:h-[450px] relative my-3 flex flex-col justify-center items-center
 }
 
-
 .slider_home_product .swiper-button-prev {
-  @apply w-[30px] h-[30px] absolute top-[90%] left-[85%] lg:left-[90%]  overflow-hidden rounded-full  bg-[#249f8f] text-white
+  @apply w-[30px] h-[30px] absolute top-[90%] left-[85%] lg:left-[90%] after:content-['prev'] after:text-[20px] after:absolute text-center after:left-[8px]  rounded-full  bg-[#249f8f] text-white
 }
 
 .slider_home_product .swiper-button-next {
-  @apply w-[30px] h-[30px] absolute top-[90%] left-[92%] lg:left-[95%]  overflow-hidden rounded-full  bg-[#249f8f] text-white
+  @apply w-[30px] h-[30px] absolute top-[90%] left-[92%] lg:left-[95%]  after:content-['next'] after:text-[20px] after:absolute text-center after:left-[10px] rounded-full  bg-[#249f8f] text-white
 }
 
 .slider_home_product .swiper-pagination{
@@ -20,6 +22,16 @@
   after:contain-content after:w-[50px] after:h-[50px] after:absolute after:top-[1px] after:-right-[50px] after:rounded-tl-[100px] after:shadow-shad-white
 }
 .slider_home_product .swiper-pagination-bullet{
-  @apply z-20
+  @apply z-20 bg-teal-500
 }
 
+.inputcolor{
+  @apply w-[20px] h-[20px] outline-none  appearance-none rounded-md border-2 border-gray-300
+}
+.inputcoloractive{
+  @apply text-clip
+}
+
+.btn-pro{
+  @apply py-1 px-3 md:w-[150px] md:h-[40px] md:text-nowrap rounded-lg transition-all shadow-sm shadow-black 
+}

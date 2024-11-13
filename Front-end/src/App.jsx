@@ -4,9 +4,12 @@ import routes from './route'
 
 function App() {
   const router = useRoutes(routes)
-
   return (
-    router
+    <div className=" bg-white text-sky-950">
+      {
+        router
+      }
+    </div>
   )
 }
 
