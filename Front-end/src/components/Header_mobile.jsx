@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/logo.png";
+import logo from "/logo.jpg";
 import { FaUserAlt } from "react-icons/fa";
 import { SlBasket } from "react-icons/sl";
 import { IoIosSearch } from "react-icons/io";
@@ -360,40 +360,40 @@ function Header_mobile() {
   ];
   const [flagmenu, setflagmenu] = useState(false);
   return (
-    <nav className="  w-[100%] h-[105px] p-2 shadow-md shadow-sky-300 rounded-b-xl fixed top-0 left-0 z-[100]  bg-sky-50  ">
+    <nav className="  w-[100%] h-[105px] p-2 shadow-md shadow-sky-100 rounded-b-xl fixed top-0 left-0 z-[100]  bg-sky-50 lg:hidden ">
       <div className="container mx-auto flex-row-reverse  ">
-       
         <div
           dir="rtl"
-          className={` ${
-            flagmenu ? " -translate-x-[300px] sm:-translate-x-[250px] md:-translate-x-[200px] lg:-translate-x-[0px]  " : ""
-          } w-full transition-all flex flex-col items-center  gap-3 justify-between `}
+          className={` w-full transition-all flex flex-col items-center  gap-3 justify-between `}
         >
-          <div 
-           onClick={() => setflagmenu(!flagmenu)}
-           className={` ${flagmenu ? "  cursor-pointer pointer-events-auto " : " pointer-events-none "} flex items-center justify-end  relative  w-full h-[30px] `}>
-          <button
-            onClick={() => setflagmenu(true)}
-            className={` ${flagmenu ? 'hidden': " pointer-events-auto"}  w-[40px] h-[40px] bg-sky-300 text-sky-900  mask mask-hexagon flex justify-center items-center`}
-            type="button"
+          <div
+            className={`flex items-center justify-end relative  w-full h-[30px] `}
           >
-            <FcMenu size={25}  />
-          </button>
-
+            <button
+              onClick={() => setflagmenu(true)}
+              className={` ${
+                flagmenu ? "hidden" : " pointer-events-auto"
+              }  w-[40px] h-[40px] bg-sky-300 text-sky-900  mask mask-hexagon flex justify-center items-center`}
+              type="button"
+            >
+              <FcMenu size={25} />
+            </button>
           </div>
-
         </div>
-         
 
         {flagmenu && (
+          <div 
+          onClick={() =>setflagmenu(!flagmenu)}
+          className="w-full h-screen fixed top-0 right-0 bg-[#00000065] !z-[200]">
           <div
-            className={`lg:hidden  bg-slate-50   w-[300px] h-screen   transition-allr transform-gpu  fixed top-0 right-0 rounded-l-xl !z-[100] `}
+            className={` lg:hidden  bg-slate-50 w-[300px]  rounded-l-xl `}
             id="navigation"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className=" text-center">
-              <a href="#">
-                <img className=" mx-auto mt-1" src={logo} alt="" />
-              </a>
+            <div className=" text-center w-[160px] h-[160px] mx-auto">
+              <NavLink to={'/'} className={' w-full h-full '}>
+                <img className=" w-full h-full object-cover rounded-full mx-auto " src={logo} alt="logo" />
+              </NavLink>
             </div>
 
             <div className=" w-full  h-screen overflow-scroll overflow-y-auto">
@@ -404,27 +404,48 @@ function Header_mobile() {
               </ul>
             </div>
           </div>
+          </div>
         )}
-
       </div>
       <div className=" container  mx-auto  top-[20px] relative  flex  items-center gap-3 justify-between">
-            <form action="#" className="mx-auto relative">
-              <input
-                className=" pr-[40px]  w-[300px] sm:w-[350px] md:w-[500px] h-[40px] bg-gray-200  outline-none rounded-lg px-2"
-                type="text"
-                placeholder="جستجو ..."
-              />
-              <button className=" h-[35px] w-[35px] absolute top-[2.5px] right-0 mask mask-hexagon flex justify-center items-center bg-sky-300 text-sky-900 "  type="submit">
-              <IoIosSearch size={28}  />
-              </button>
-            </form>
+        <form action="#" className="mx-auto relative">
+          <input
+            className=" pr-[40px]  w-[300px] sm:w-[350px] md:w-[500px] h-[40px] bg-gray-200  outline-none rounded-lg px-2"
+            type="text"
+            placeholder="جستجو ..."
+          />
+          <button
+            className=" h-[35px] w-[35px] absolute top-[2.5px] right-0 mask mask-hexagon flex justify-center items-center bg-sky-300 text-sky-900 "
+            type="submit"
+          >
+            <IoIosSearch size={28} />
+          </button>
+        </form>
 
-            <div className={` ${flagmenu ? 'sm:hidden': ""}  w-max  flex gap-3 items-center justify-center`}>
-              <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}><SlBasket size={20}  /></NavLink>
-              <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}><FaUserAlt size={20}  /></NavLink>
-              <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}>dark</NavLink>
-          </div>
+        <div
+          className={` ${
+            flagmenu ? "sm:hidden" : ""
+          }  w-max  flex gap-3 items-center justify-center`}
+        >
+          <NavLink
+            className={
+              " mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 "
+            }
+            to={"/cart"}
+          >
+            <SlBasket size={20} />
+          </NavLink>
+          <NavLink
+            className={
+              " mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 "
+            }
+            to={'/login'}
+          >
+            <FaUserAlt size={20} />
+          </NavLink>
+          {/* <NavLink className={' mask mask-hexagon w-[40px] h-[40px] flex justify-center items-center p-1 bg-sky-300 text-sky-900 '}  to={'/'}>dark</NavLink> */}
         </div>
+      </div>
     </nav>
   );
 }
