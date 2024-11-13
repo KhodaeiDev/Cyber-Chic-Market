@@ -1,3 +1,4 @@
+const { errorResponse, successResponse } = require("../../helpers/responses");
 const categoryModel = require("./../../models/Category");
 const productModel = require("./../../models/Product");
 const subCategoryModel = require("./../../models/SubCategory");
@@ -36,17 +37,45 @@ exports.getCategoryAndSubCategory = async (req, res, next) => {
 exports.createCategory = async (req, res, next) => {
   try {
     const { title, href } = req.body;
-    //Todo validator
 
     const isExistCategory = await categoryModel.findOne({
       $or: { href, title },
     });
     if (isExistCategory) {
-      return res.status(401).json("category is already exist");
+      return errorResponse(res, 401, "category is already exist");
     }
 
     const category = await categoryModel.create({ title, href });
-    return res.status(201).json(category);
+    return successResponse(res, 201, {
+      category,
+      message: "Category Created Successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.createSubCategory = async (req, res, next) => {
+  try {
+    const { title, href, parent } = req.body;
+
+    const isExistCategory = await categoryModel.findOne({
+      $or: { href, title },
+    });
+    if (isExistCategory) {
+      return errorResponse(res, 401, "SubCategory is already exist");
+    }
+
+    const checkCategory = await categoryModel.findOne({ _id: parent });
+    if (!checkCategory) {
+      return errorResponse(res, 404, "Category not Found");
+    }
+
+    const subCategory = await subCategoryModel.create({ title, href, parent });
+    return successResponse(res, 201, {
+      subCategory,
+      message: "SubCategory Created Successfully",
+    });
   } catch (err) {
     next(err);
   }
