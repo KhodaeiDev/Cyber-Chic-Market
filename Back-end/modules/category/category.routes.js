@@ -2,8 +2,8 @@ const express = require("express");
 const {
   createCategory,
   createSubCategory,
-  getCategoryAndSubCategory,
   getCategoryProducts,
+  fetchCategories,
 } = require("./category.controller");
 const { auth } = require("../../middleware/auth");
 const { isAdmin } = require("../../middleware/isAdmin");
@@ -17,13 +17,13 @@ const router = express.Router();
 
 router
   .route("/")
-  .post(auth, isAdmin, validator(categoryValidator), createCategory);
-//   .get(controller.getCategoryAndSubCategory);
+  .post(auth, isAdmin, validator(categoryValidator), createCategory)
+  .get(fetchCategories);
 
 router
   .route("/sub/")
   .post(auth, isAdmin, validator(subCategoryValidator), createSubCategory);
 
-router.route("/:href").get(controller.getCategoryProducts);
+// router.route("/:href").get(getCategoryProducts);
 
 module.exports = router;

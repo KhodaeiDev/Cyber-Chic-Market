@@ -3,15 +3,15 @@ const categoryModel = require("./../../models/Category");
 const productModel = require("./../../models/Product");
 const subCategoryModel = require("./../../models/SubCategory");
 
-exports.getCategoryAndSubCategory = async (req, res, next) => {
+exports.fetchCategories = async (req, res, next) => {
   try {
-    const categories = await categoryModel.find();
+    const categories = await categoryModel.find({});
     const subCategories = await subCategoryModel.find({});
 
     const categorizedSubCatedory = categories.map((category) => {
       return {
-        title: category.title,
-        items: subCategories
+        category: category.title,
+        subCategory: subCategories
           .filter(
             (subCategory) =>
               subCategory.category.toString() === category._id.toString()
@@ -26,9 +26,11 @@ exports.getCategoryAndSubCategory = async (req, res, next) => {
     });
 
     if (!categorizedSubCatedory) {
-      return res.status(404).json("Sub Category not Exist");
+      return errorResponse(res, 404, "Error in fetch Categories");
     }
-    res.status(200).json({ categorizedSubCatedory });
+    return successResponse(res, 200, {
+      fetchCategories: categorizedSubCatedory,
+    });
   } catch (err) {
     next(err);
   }
@@ -57,7 +59,7 @@ exports.createCategory = async (req, res, next) => {
 
 exports.createSubCategory = async (req, res, next) => {
   try {
-    const { title, href, parent } = req.body;
+    const { title, href, category } = req.body;
 
     const isExistCategory = await categoryModel.findOne({
       $or: { href, title },
@@ -66,12 +68,16 @@ exports.createSubCategory = async (req, res, next) => {
       return errorResponse(res, 401, "SubCategory is already exist");
     }
 
-    const checkCategory = await categoryModel.findOne({ _id: parent });
+    const checkCategory = await categoryModel.findOne({ _id: category });
     if (!checkCategory) {
       return errorResponse(res, 404, "Category not Found");
     }
 
-    const subCategory = await subCategoryModel.create({ title, href, parent });
+    const subCategory = await subCategoryModel.create({
+      title,
+      href,
+      category,
+    });
     return successResponse(res, 201, {
       subCategory,
       message: "SubCategory Created Successfully",

@@ -1,3 +1,5 @@
+const yup = require("yup");
+
 const categoryValidator = yup.object({
   title: yup
     .string()
@@ -34,8 +36,6 @@ const subCategoryValidator = yup.object({
     .string()
     .required("Parent ID is required")
     .matches(/^[0-9a-f]{24}$/, "Invalid parent category ID format"),
-  description: yup.string().trim(),
-  filters: yup.array().of(categoryFiltersSchema),
 });
 
 module.exports = { categoryValidator, subCategoryValidator };
