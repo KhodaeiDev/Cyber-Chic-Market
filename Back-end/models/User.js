@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const addresSchema = new mongoose.Schema({
   name: { type: String, reqired: true },
   postalCode: { type: String, reqired: true },
+  address: { type: String, reqired: true },
   location: {
     lon: { type: Number, reqired: true },
     lat: { type: Number, reqired: true },

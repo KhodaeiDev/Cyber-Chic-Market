@@ -24,7 +24,8 @@ exports.banUser = async (req, res, next) => {
 exports.createAddress = async (req, res, next) => {
   try {
     const user = req.user;
-    const { name, postalCode, location, cityId, provinceId } = req.body;
+    const { name, postalCode, address, location, cityId, provinceId } =
+      req.body;
 
     const city = cities.find((city) => +city.id === +cityId);
     const province = cities.find((province) => +province.id === +provinceId);
@@ -38,6 +39,7 @@ exports.createAddress = async (req, res, next) => {
       postalCode,
       location,
       cityId,
+      address,
       provinceId,
     };
 
