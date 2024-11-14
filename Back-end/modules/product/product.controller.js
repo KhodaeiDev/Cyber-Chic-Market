@@ -1,3 +1,4 @@
+const fs = require("fs");
 const productModel = require("./../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
 const categoryModel = require("./../../models/Category");
@@ -174,6 +175,33 @@ exports.addProduct = async (req, res, next) => {
     //   sendingTime,
     // });
     // return res.status(201).json("محصول با موفقیت ساخته شد");
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+
+    if (!isValidObjectId(productId)) {
+      return errorResponse(res, 400, "Product ID is not correct !!");
+    }
+
+    const deletedProduct = await productModel.findByIdAndDelete(productId);
+
+    deletedProduct?.images?.map((image) =>
+      fs.unlink(`public/images/product/${image}`, (err) => next(err))
+    );
+
+    if (!deletedProduct) {
+      return errorResponse(res, 404, "Product not found !!");
+    }
+
+    return successResponse(res, 200, {
+      message: "Product deleted successfully :))",
+      product: deletedProduct,
+    });
   } catch (err) {
     next(err);
   }

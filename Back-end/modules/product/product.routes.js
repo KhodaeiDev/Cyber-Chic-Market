@@ -7,6 +7,7 @@ const {
   myFavorites,
   priceSortProducts,
   removeFavorites,
+  deleteProduct,
 } = require("./product.controller");
 const { multerStorage } = require("./../../middleware/uoloader");
 const { auth } = require("./../../middleware/auth");
@@ -18,6 +19,8 @@ const router = express.Router();
 
 router.route("/").post(auth, isAdmin, upload.array("images", 5), addProduct);
 //   .get(getAllProducts);
+
+router.route("/:productId").delete(auth, isAdmin, deleteProduct);
 
 // router.route("/addToFavorit/:productID").post(auth, addToFavorit);
 
