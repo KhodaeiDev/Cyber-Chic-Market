@@ -123,6 +123,202 @@
       }
     },
 
+    "/category/": {
+      "get": {
+        "tags": ["Category 📁"],
+        "summary": "Fetch Categories (Get all Categories and Sub Categories)",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All categories will be returned"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Category 📁"],
+        "summary": "Create a new category",
+        "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Title Text"
+                  },
+                  "href": {
+                    "type": "string",
+                    "example": "title-href-text"
+                  },
+                  "parent": {
+                    "type": "objectId",
+                    "example": "66793a5bbb4dd75a84f0bae7",
+                    "required": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category created"
+          },
+          "400": {
+            "description": "Req Body Validation Err"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "403": {
+            "description": "category is already exist"
+          }
+        }
+      }
+    },
+
+    "/category/{categoryId}": {
+      "put": {
+        "tags": ["Category 📁"],
+        "summary": "Edit a category",
+        "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "Title Text"
+                  },
+                  "href": {
+                    "example": "title-href-text"
+                  },
+                  "parent": {
+                    "example": "parentCategoryId"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Category 📁"],
+        "summary": "Remove a category",
+        "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+
+    "/category/sub": {
+      "post": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Create a sub category",
+        "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "Title Text"
+                  },
+                  "href": {
+                    "example": "title-href-text"
+                  },
+                  "parent": {
+                    "example": "parent CategoryId"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SubCategory created"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+
     "/users/me/addresses": {
       "post": {
         "tags": ["Users 👤"],
