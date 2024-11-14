@@ -1,36 +1,69 @@
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const categoryModel = require("./../../models/Category");
-const productModel = require("./../../models/Product");
+const productModel = require("../../models/Product2");
 const subCategoryModel = require("./../../models/SubCategory");
 
-exports.fetchCategories = async (req, res, next) => {
+// exports.fetchCategories = async (req, res, next) => {
+//   try {
+//     const categories = await categoryModel.find({});
+//     const subCategories = await subCategoryModel.find({});
+
+//     const categorizedSubCatedory = categories.map((category) => {
+//       return {
+//         _id: category._id,
+//         title: category.title,
+//         href: category.href,
+//         subCategory: subCategories
+//           .filter(
+//             (subCategory) =>
+//               subCategory.category.toString() === category._id.toString()
+//           )
+//           .map((subCategory) => ({
+//             _id: subCategory._id,
+//             title: subCategory.title,
+//             href: subCategory.href,
+//             category: subCategory.category,
+//           })),
+//       };
+//     });
+
+//     if (!categorizedSubCatedory) {
+//       return errorResponse(res, 404, "Error in fetch Categories");
+//     }
+//     return successResponse(res, 200, {
+//       fetchCategories: categorizedSubCatedory,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+exports.fetchAllCategories = async (req, res, next) => {
   try {
-    const categories = await categoryModel.find({});
-    const subCategories = await subCategoryModel.find({});
+    const fetchSubcategoriesRecursively = async (parentId = null) => {
+      const subCategories = await subCategoryModel.find({ parent: parentId });
+      const parentSubCategories = await categoryModel
+        .find({
+          parent: parentId,
+        })
+        .lean();
 
-    const categorizedSubCatedory = categories.map((category) => {
-      return {
-        category: category.title,
-        subCategory: subCategories
-          .filter(
-            (subCategory) =>
-              subCategory.category.toString() === category._id.toString()
-          )
-          .map((subCategory) => ({
-            _id: subCategory._id,
-            title: subCategory.title,
-            href: subCategory.href,
-            category: subCategory.category,
-          })),
-      };
-    });
+      const fetchedParentSubCategories = [];
 
-    if (!categorizedSubCatedory) {
-      return errorResponse(res, 404, "Error in fetch Categories");
-    }
-    return successResponse(res, 200, {
-      fetchCategories: categorizedSubCatedory,
-    });
+      for (const category of parentSubCategories) {
+        category.subCategories = await fetchSubcategoriesRecursively(
+          category._id
+        );
+
+        fetchedParentSubCategories.push(category);
+      }
+
+      return [...fetchedParentSubCategories, ...subCategories];
+    };
+
+    const categories = await fetchSubcategoriesRecursively(null);
+
+    return successResponse(res, 200, { categories });
   } catch (err) {
     next(err);
   }
@@ -38,7 +71,7 @@ exports.fetchCategories = async (req, res, next) => {
 
 exports.createCategory = async (req, res, next) => {
   try {
-    const { title, href } = req.body;
+    const { title, href, parent } = req.body;
 
     const isExistCategory = await categoryModel.findOne({
       $or: { href, title },
@@ -47,7 +80,7 @@ exports.createCategory = async (req, res, next) => {
       return errorResponse(res, 401, "category is already exist");
     }
 
-    const category = await categoryModel.create({ title, href });
+    const category = await categoryModel.create({ title, href, parent });
     return successResponse(res, 201, {
       category,
       message: "Category Created Successfully",
@@ -59,7 +92,7 @@ exports.createCategory = async (req, res, next) => {
 
 exports.createSubCategory = async (req, res, next) => {
   try {
-    const { title, href, category } = req.body;
+    const { title, href, parent } = req.body;
 
     const isExistCategory = await categoryModel.findOne({
       $or: { href, title },
@@ -68,7 +101,7 @@ exports.createSubCategory = async (req, res, next) => {
       return errorResponse(res, 401, "SubCategory is already exist");
     }
 
-    const checkCategory = await categoryModel.findOne({ _id: category });
+    const checkCategory = await categoryModel.findOne({ _id: parent });
     if (!checkCategory) {
       return errorResponse(res, 404, "Category not Found");
     }
@@ -76,7 +109,7 @@ exports.createSubCategory = async (req, res, next) => {
     const subCategory = await subCategoryModel.create({
       title,
       href,
-      category,
+      parent,
     });
     return successResponse(res, 201, {
       subCategory,

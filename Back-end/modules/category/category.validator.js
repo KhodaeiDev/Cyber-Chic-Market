@@ -23,7 +23,7 @@ const subCategoryValidator = yup.object({
     .required("Category title is required")
     .trim()
     .max(255, "Category title cannot exceed 255 characters"),
-  slug: yup
+  href: yup
     .string()
     .required("Category slug is required")
     .trim()

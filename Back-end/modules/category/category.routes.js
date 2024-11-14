@@ -4,6 +4,7 @@ const {
   createSubCategory,
   getCategoryProducts,
   fetchCategories,
+  fetchAllCategories,
 } = require("./category.controller");
 const { auth } = require("../../middleware/auth");
 const { isAdmin } = require("../../middleware/isAdmin");
@@ -18,7 +19,7 @@ const router = express.Router();
 router
   .route("/")
   .post(auth, isAdmin, validator(categoryValidator), createCategory)
-  .get(fetchCategories);
+  .get(fetchAllCategories);
 
 router
   .route("/sub/")
