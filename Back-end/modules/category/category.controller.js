@@ -2,6 +2,7 @@ const { errorResponse, successResponse } = require("../../helpers/responses");
 const categoryModel = require("./../../models/Category");
 const productModel = require("../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
+const { isValidObjectId } = require("mongoose");
 
 // exports.fetchCategories = async (req, res, next) => {
 //   try {
@@ -77,7 +78,7 @@ exports.createCategory = async (req, res, next) => {
       $or: { href, title },
     });
     if (isExistCategory) {
-      return errorResponse(res, 401, "category is already exist");
+      return errorResponse(res, 403, "category is already exist");
     }
 
     const category = await categoryModel.create({ title, href, parent });
@@ -120,24 +121,85 @@ exports.createSubCategory = async (req, res, next) => {
   }
 };
 
-exports.getCategoryProducts = async (req, res, next) => {
+exports.deleteCategory = async (req, res, next) => {
   try {
-    const { href } = req.params;
+    const { categoryId } = req.params;
 
-    const category = await categoryModel.findOne({ href });
-    if (!category) {
-      return res.status(404).json("دسته بندی مورد نظر یافت نشد");
+    if (!isValidObjectId(categoryId)) {
+      return errorResponse(res, 400, "Category ID is not valid !!");
     }
 
-    const categoryProducts = await productModel.find({
-      category: category._id,
+    const deletedCategory = await categoryModel.findByIdAndDelete(categoryId);
+
+    if (!deletedCategory) {
+      return errorResponse(res, 404, "Category not found !!");
+    }
+
+    return successResponse(res, 200, {
+      message: "Category deleted successfully :))",
+      category: deletedCategory,
     });
-    if (!categoryProducts) {
-      return res.status(404).json("محصولی یافت نشد");
-    }
-
-    return res.json(categoryProducts);
   } catch (err) {
     next(err);
   }
 };
+
+exports.editCategory = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    let { title, href, parent } = req.body;
+
+    if (!isValidObjectId(categoryId)) {
+      return errorResponse(res, 400, "Category ID is not valid !!");
+    }
+
+    await categoryEditValidator.validate(
+      {
+        title,
+        href,
+        parent,
+      },
+      { abortEarly: false }
+    );
+
+    const updatedCategory = await categoryModel.findByIdAndUpdate(
+      categoryId,
+      {
+        title,
+        href,
+        parent,
+      },
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      return errorResponse(res, 404, "Category not found !!");
+    }
+
+    return successResponse(res, 200, { category: updatedCategory });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// exports.getCategoryProducts = async (req, res, next) => {
+//   try {
+//     const { href } = req.params;
+
+//     const category = await categoryModel.findOne({ href });
+//     if (!category) {
+//       return res.status(404).json("دسته بندی مورد نظر یافت نشد");
+//     }
+
+//     const categoryProducts = await productModel.find({
+//       category: category._id,
+//     });
+//     if (!categoryProducts) {
+//       return res.status(404).json("محصولی یافت نشد");
+//     }
+
+//     return res.json(categoryProducts);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
