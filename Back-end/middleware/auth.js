@@ -39,7 +39,9 @@ exports.auth = async (req, res, next) => {
 
     const user = await userModel.findById(userId);
     if (!user) {
-      return errorResponse(res, 401, { message: "User Not found" });
+      return errorResponse(res, 401, {
+        message: "User Not found , Plz Send Valid token",
+      });
     }
 
     const isBanned = await banUserModel.findOne({ phone: user.phone });

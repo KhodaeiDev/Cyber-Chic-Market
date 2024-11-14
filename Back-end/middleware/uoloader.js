@@ -5,9 +5,9 @@ const fs = require("fs");
 exports.multerStorage = (destination, allowedTypes = /jpg|png|jpeg|webp/) => {
   destination = path.join(__dirname, "..", destination);
 
-  // if (!fs.existsSync(destination)) {
-  //   fs.mkdir(destination);
-  // }
+  if (!fs.existsSync(destination)) {
+    fs.mkdirSync(destination, { recursive: true });
+  }
 
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {

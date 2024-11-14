@@ -1,6 +1,6 @@
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const categoryModel = require("./../../models/Category");
-const productModel = require("../../models/Product2");
+const productModel = require("../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
 
 // exports.fetchCategories = async (req, res, next) => {

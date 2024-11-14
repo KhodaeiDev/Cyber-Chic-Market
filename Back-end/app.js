@@ -7,7 +7,7 @@ const authRouter = require("./modules/auth/auth.routes");
 const categoryRouter = require("./modules/category/category.routes");
 const locationsRouter = require("./modules/locations/locations.routes.js");
 const userRouter = require("./modules/user/user.routes");
-// const productRouter = require("./modules/product/product.routes");
+const productRouter = require("./modules/product/product.routes");
 // const profileRouter = require("./modules/profile/profile.routes");
 const swaggerRoutes = require("./modules/api-doc/swagger.routes");
 
@@ -31,7 +31,7 @@ app.use("/auth", authRouter);
 app.use("/locations", locationsRouter);
 app.use("/users", userRouter);
 app.use("/category", categoryRouter);
-// app.use("/products", productRouter);
+app.use("/products", productRouter);
 // app.use("/profile", profileRouter);
 app.use("/apis", swaggerRoutes);
 

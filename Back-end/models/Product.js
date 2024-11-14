@@ -1,85 +1,91 @@
 const mongoose = require("mongoose");
 
-const schema = mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      trim: true,
     },
+
     title: {
       type: String,
       required: true,
     },
+
+    href: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowercase: true,
+    },
+
     description: {
       type: String,
       required: true,
+      trim: true,
     },
-    brand: {
-      type: String,
-      required: true,
-    },
+
     category: {
       type: mongoose.Types.ObjectId,
       ref: "Category",
       required: true,
     },
+
     subCategory: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "SubCategory",
       required: true,
     },
-    color: {
-      type: String,
-      required: true,
-    },
-    cover: {
-      path: { type: String, required: true },
-      filename: { type: String, required: true },
-    },
-    images: {
-      type: [String],
-      required: true,
-    },
+
     price: {
       type: Number,
       required: true,
     },
-    discountPrice: {
+
+    discountPercent: {
       type: Number,
       required: true,
     },
-    discount: {
+
+    priceAfterDiscount: {
+      type: Number,
+      required: false,
+    },
+
+    // موجودی
+    quantity: {
       type: Number,
       required: true,
     },
-    resolution: {
+
+    brand: {
       type: String,
+      enum: ["apple", "samsung", "xiaomi", "asus", "huawei", "hp"],
+      required: true,
     },
-    ability: {
-      type: String,
+
+    images: {
+      type: [
+        {
+          type: String,
+          required: true,
+        },
+      ],
     },
-    size: {
-      type: String,
-    },
-    operatingSystem: {
-      type: String,
-    },
-    technology: {
-      type: String,
-    },
-    Bluetooth: {
-      type: Boolean,
-      required: false,
-    },
-    sendingTime: {
-      type: Number,
-      default: 2,
-      required: false,
+
+    attributes: {
+      type: Map, //   Map -> Key - Value Pair
+      of: mongoose.Types.Mixed,
+      required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-const model = mongoose.model("Product", schema);
+const Product = mongoose.model("Product", productSchema);
 
-module.exports = model;
+module.exports = Product;

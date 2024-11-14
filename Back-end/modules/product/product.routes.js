@@ -1,41 +1,33 @@
 const express = require("express");
-const controller = require("./product.controller");
+const {
+  addProduct,
+  addToFavorit,
+  getAllProducts,
+  getProduct,
+  myFavorites,
+  priceSortProducts,
+  removeFavorites,
+} = require("./product.controller");
 const { multerStorage } = require("./../../middleware/uoloader");
-const { authMiddleware } = require("./../../middleware/auth");
+const { auth } = require("./../../middleware/auth");
+const { isAdmin } = require("./../../middleware/isAdmin");
 
 const upload = multerStorage("public/images/product");
 
 const router = express.Router();
 
-router.route("/").get(controller.getAllProducts);
+router.route("/").post(auth, isAdmin, upload.array("images", 5), addProduct);
+//   .get(getAllProducts);
 
-router.route("/addProduct").post(
-  upload.fields([
-    {
-      name: "cover",
-      maxCount: 1,
-    },
-    {
-      name: "images",
-      maxCount: 3,
-    },
-  ]),
-  controller.addProduct
-);
+// router.route("/addToFavorit/:productID").post(auth, addToFavorit);
 
-router
-  .route("/addToFavorit/:productID")
-  .post(authMiddleware, controller.addToFavorit);
+// router.route("/removeFavorit/:productID").post(auth, removeFavorites);
 
-router
-  .route("/removeFavorit/:productID")
-  .post(authMiddleware, controller.removeFavorites);
+// router.route("/favorites").get(auth, myFavorites);
 
-router.route("/favorites").get(authMiddleware, controller.myFavorites);
+// router.route("/:productID").get(getProduct);
 
-router.route("/:productID").get(controller.getProduct);
-
-// * Sort routes
-router.route("/priceSort/:subcategoryhref").get(controller.priceSortProducts);
+// // * Sort routes
+// router.route("/priceSort/:subcategoryhref").get(priceSortProducts);
 
 module.exports = router;
