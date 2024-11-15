@@ -81,10 +81,20 @@ exports.createCategory = async (req, res, next) => {
       return errorResponse(res, 403, "category is already exist");
     }
 
-    const category = await categoryModel.create({ title, href, parent });
+    let image = null;
+    if (req.file) {
+      const { filename } = req.file;
+
+      image = {
+        filename,
+        path: `images/categoryIcon/${filename}`,
+      };
+    }
+
+    const category = await categoryModel.create({ title, href, parent, image });
     return successResponse(res, 201, {
-      category,
       message: "Category Created Successfully",
+      category,
     });
   } catch (err) {
     next(err);

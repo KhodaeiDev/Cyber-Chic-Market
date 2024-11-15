@@ -66,14 +66,12 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    images: {
-      type: [
-        {
-          type: String,
-          required: true,
-        },
-      ],
-    },
+    images: [
+      {
+        filename: { type: String, required: true, trim: true },
+        path: { type: String, required: true, trim: true },
+      },
+    ],
 
     attributes: {
       type: Map, //   Map -> Key - Value Pair

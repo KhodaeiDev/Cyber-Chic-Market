@@ -106,8 +106,12 @@ exports.addProduct = async (req, res, next) => {
     let images = [];
     for (let i = 0; i < req.files?.length; i++) {
       const file = req.files[i];
+      const filename = file?.filename;
 
-      images.push(file?.filename);
+      images.push({
+        filename,
+        path: `images/product/${filename}`,
+      });
     }
 
     let priceAfterDiscount = undefined;
@@ -130,51 +134,10 @@ exports.addProduct = async (req, res, next) => {
       images,
       attributes,
     });
-
     return successResponse(res, 201, {
       message: "Product created successfully :))",
       product: newProduct,
     });
-    // if (!req.files) {
-    //   return res.status(401).json("لطفا تصویر محصول خود را اپلود کنید");
-    // }
-
-    // const imagesname = [];
-    // req.files.images.forEach((file) => {
-    //   const mediaUrlPath = `/images/product/${file.filename}`;
-    //   imagesname.push(mediaUrlPath);
-    // });
-
-    // const mediaUrlPath = `/images/product/${req.files.cover[0].filename}`;
-
-    // //* Products Discount
-    // const discountPrice = price - (price * discount) / 100;
-
-    // await productModel.create({
-    //   name,
-    //   title,
-    //   description,
-    //   category,
-    //   brand,
-    //   subCategory,
-    //   cover: {
-    //     path: mediaUrlPath,
-    //     filename: req.files.cover[0].filename,
-    //   },
-    //   images: imagesname,
-    //   color,
-    //   price,
-    //   discountPrice,
-    //   discount,
-    //   resolution,
-    //   size,
-    //   ability,
-    //   operatingSystem,
-    //   technology,
-    //   Bluetooth,
-    //   sendingTime,
-    // });
-    // return res.status(201).json("محصول با موفقیت ساخته شد");
   } catch (err) {
     next(err);
   }

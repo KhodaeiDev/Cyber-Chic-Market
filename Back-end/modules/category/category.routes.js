@@ -15,12 +15,20 @@ const {
   categoryValidator,
   subCategoryValidator,
 } = require("./category.validator");
+const { multerStorage } = require("../../middleware/uoloader");
+const uploader = multerStorage("/public/images/categoryIcon");
 
 const router = express.Router();
 
 router
   .route("/")
-  .post(auth, isAdmin, validator(categoryValidator), createCategory)
+  .post(
+    auth,
+    isAdmin,
+    uploader.single("image"),
+    validator(categoryValidator),
+    createCategory
+  )
   .get(fetchAllCategories);
 
 router

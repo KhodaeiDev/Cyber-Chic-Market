@@ -10,6 +10,11 @@ const schema = mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      path: { type: String, required: true, trim: true },
+      filename: { type: String, required: true, trim: true },
+    },
+
     parent: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
