@@ -20,15 +20,13 @@ const router = express.Router();
 router.route("/").post(auth, isAdmin, upload.array("images", 5), addProduct);
 //   .get(getAllProducts);
 
-router.route("/:productId").delete(auth, isAdmin, deleteProduct);
+router.route("/:id").delete(auth, isAdmin, deleteProduct).get(getProduct);
 
 // router.route("/addToFavorit/:productID").post(auth, addToFavorit);
 
 // router.route("/removeFavorit/:productID").post(auth, removeFavorites);
 
 // router.route("/favorites").get(auth, myFavorites);
-
-// router.route("/:productID").get(getProduct);
 
 // // * Sort routes
 // router.route("/priceSort/:subcategoryhref").get(priceSortProducts);

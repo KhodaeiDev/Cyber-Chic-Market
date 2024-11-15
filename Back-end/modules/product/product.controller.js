@@ -145,13 +145,13 @@ exports.addProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
   try {
-    const { productId } = req.params;
+    const { id } = req.params;
 
-    if (!isValidObjectId(productId)) {
+    if (!isValidObjectId(id)) {
       return errorResponse(res, 400, "Product ID is not correct !!");
     }
 
-    const deletedProduct = await productModel.findByIdAndDelete(productId);
+    const deletedProduct = await productModel.findByIdAndDelete(id);
 
     deletedProduct?.images?.map((image) =>
       fs.unlink(`public/images/product/${image}`, (err) => next(err))
@@ -170,22 +170,26 @@ exports.deleteProduct = async (req, res, next) => {
   }
 };
 
-// exports.getProduct = async (req, res, next) => {
-//   try {
-//     const { productID } = req.params;
-//     if (!productID) {
-//       throw new Error("محصول مورد نظر یافت نشد");
-//     }
-//     const product = await productModel.findById(productID);
-//     if (!product) {
-//       throw new Error("محصول مورد نظر یافت نشد");
-//     }
+exports.getProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return errorResponse(res, 400, "Product Id not Correct");
+    }
+    const product = await productModel
+      .findById(id)
+      .populate({ path: "category", model: categoryModel })
+      .populate({ path: "subCategory", model: subCategoryModel });
 
-//     return res.json(product);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    if (!product) {
+      return errorResponse(res, 404, "Product Not Found");
+    }
+
+    return successResponse(res, 200, { product });
+  } catch (err) {
+    next(err);
+  }
+};
 
 // exports.addToFavorit = async (req, res, next) => {
 //   try {
