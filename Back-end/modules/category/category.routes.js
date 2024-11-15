@@ -3,13 +3,13 @@ const {
   createCategory,
   createSubCategory,
   getCategoryProducts,
-  fetchCategories,
-  fetchAllCategories,
   editCategory,
   deleteCategory,
   getAllSubCategories,
   getSubCategory,
   deleteSubCategory,
+  fetchAllCategoriesAndSubcategories,
+  fetchJustMainCategories,
 } = require("./category.controller");
 const { auth } = require("../../middleware/auth");
 const { isAdmin } = require("../../middleware/isAdmin");
@@ -32,7 +32,9 @@ router
     validator(categoryValidator),
     createCategory
   )
-  .get(fetchAllCategories);
+  .get(fetchAllCategoriesAndSubcategories);
+
+router.route("/main").get(fetchJustMainCategories);
 
 router
   .route("/:categoryId")

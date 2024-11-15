@@ -4,42 +4,7 @@ const productModel = require("../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
 const { isValidObjectId } = require("mongoose");
 
-// exports.fetchCategories = async (req, res, next) => {
-//   try {
-//     const categories = await categoryModel.find({});
-//     const subCategories = await subCategoryModel.find({});
-
-//     const categorizedSubCatedory = categories.map((category) => {
-//       return {
-//         _id: category._id,
-//         title: category.title,
-//         href: category.href,
-//         subCategory: subCategories
-//           .filter(
-//             (subCategory) =>
-//               subCategory.category.toString() === category._id.toString()
-//           )
-//           .map((subCategory) => ({
-//             _id: subCategory._id,
-//             title: subCategory.title,
-//             href: subCategory.href,
-//             category: subCategory.category,
-//           })),
-//       };
-//     });
-
-//     if (!categorizedSubCatedory) {
-//       return errorResponse(res, 404, "Error in fetch Categories");
-//     }
-//     return successResponse(res, 200, {
-//       fetchCategories: categorizedSubCatedory,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-exports.fetchAllCategories = async (req, res, next) => {
+exports.fetchAllCategoriesAndSubcategories = async (req, res, next) => {
   try {
     const fetchSubcategoriesRecursively = async (parentId = null) => {
       const subCategories = await subCategoryModel.find({ parent: parentId });
@@ -96,6 +61,20 @@ exports.createCategory = async (req, res, next) => {
       message: "Category Created Successfully",
       category,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.fetchJustMainCategories = async (req, res, next) => {
+  try {
+    const category = await categoryModel.find({});
+
+    if (!category) {
+      return errorResponse(res, 404, "Categories not found !!");
+    }
+
+    return successResponse(res, 200, { category });
   } catch (err) {
     next(err);
   }
