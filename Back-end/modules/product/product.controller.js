@@ -84,11 +84,11 @@ exports.addProduct = async (req, res, next) => {
       return errorResponse(res, 400, "SubCategory not defined !!");
     }
 
-    createProductValidator.validate(
+    await createProductValidator.validate(
       {
+        href,
         name,
         title,
-        href,
         description,
         category,
         subCategory,

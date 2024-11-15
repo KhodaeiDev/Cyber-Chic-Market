@@ -10,6 +10,7 @@ const userRouter = require("./modules/user/user.routes");
 const productRouter = require("./modules/product/product.routes");
 // const profileRouter = require("./modules/profile/profile.routes");
 const swaggerRoutes = require("./modules/api-doc/swagger.routes");
+const { errorHandler } = require("./middleware/errorHandller.js");
 
 const app = express();
 
@@ -34,5 +35,7 @@ app.use("/category", categoryRouter);
 app.use("/products", productRouter);
 // app.use("/profile", profileRouter);
 app.use("/apis", swaggerRoutes);
+
+app.use(errorHandler);
 
 module.exports = app;
