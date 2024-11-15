@@ -101,59 +101,6 @@ exports.createCategory = async (req, res, next) => {
   }
 };
 
-exports.createSubCategory = async (req, res, next) => {
-  try {
-    const { title, href, parent } = req.body;
-
-    const isExistCategory = await categoryModel.findOne({
-      $or: { href, title },
-    });
-    if (isExistCategory) {
-      return errorResponse(res, 401, "SubCategory is already exist");
-    }
-
-    const checkCategory = await categoryModel.findOne({ _id: parent });
-    if (!checkCategory) {
-      return errorResponse(res, 404, "Category not Found");
-    }
-
-    const subCategory = await subCategoryModel.create({
-      title,
-      href,
-      parent,
-    });
-    return successResponse(res, 201, {
-      subCategory,
-      message: "SubCategory Created Successfully",
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.deleteCategory = async (req, res, next) => {
-  try {
-    const { categoryId } = req.params;
-
-    if (!isValidObjectId(categoryId)) {
-      return errorResponse(res, 400, "Category ID is not valid !!");
-    }
-
-    const deletedCategory = await categoryModel.findByIdAndDelete(categoryId);
-
-    if (!deletedCategory) {
-      return errorResponse(res, 404, "Category not found !!");
-    }
-
-    return successResponse(res, 200, {
-      message: "Category deleted successfully :))",
-      category: deletedCategory,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.editCategory = async (req, res, next) => {
   try {
     const { categoryId } = req.params;
@@ -187,6 +134,119 @@ exports.editCategory = async (req, res, next) => {
     }
 
     return successResponse(res, 200, { category: updatedCategory });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteCategory = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+
+    if (!isValidObjectId(categoryId)) {
+      return errorResponse(res, 400, "Category ID is not valid !!");
+    }
+
+    const deletedCategory = await categoryModel.findByIdAndDelete(categoryId);
+
+    if (!deletedCategory) {
+      return errorResponse(res, 404, "Category not found !!");
+    }
+
+    return successResponse(res, 200, {
+      message: "Category deleted successfully :))",
+      category: deletedCategory,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.createSubCategory = async (req, res, next) => {
+  try {
+    const { title, href, parent } = req.body;
+
+    const isExistCategory = await categoryModel.findOne({
+      $or: { href, title },
+    });
+    if (isExistCategory) {
+      return errorResponse(res, 401, "SubCategory is already exist");
+    }
+
+    const checkCategory = await categoryModel.findOne({ _id: parent });
+    if (!checkCategory) {
+      return errorResponse(res, 404, "Category not Found");
+    }
+
+    const subCategory = await subCategoryModel.create({
+      title,
+      href,
+      parent,
+    });
+    return successResponse(res, 201, {
+      subCategory,
+      message: "SubCategory Created Successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getAllSubCategories = async (req, res, next) => {
+  try {
+    const categories = await subCategoryModel.find();
+    if (!categories) {
+      return errorResponse(res, 404, "Sub Categories Not Found!!");
+    }
+
+    return successResponse(res, 200, { categories });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getSubCategory = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+
+    console.log(categoryId);
+
+    if (!isValidObjectId(categoryId)) {
+      return errorResponse(res, 400, "Category ID is not correct !!");
+    }
+
+    const category = await subCategoryModel.findOne({ _id: categoryId });
+
+    if (!category) {
+      return errorResponse(res, 404, "SubCategory not found !!");
+    }
+
+    return successResponse(res, 200, { category });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteSubCategory = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+
+    if (!isValidObjectId(categoryId)) {
+      return errorResponse(res, 400, "Category ID is not correct !!");
+    }
+
+    const deletedCategory = await subCategoryModel.findByIdAndDelete(
+      categoryId
+    );
+
+    if (!deletedCategory) {
+      return errorResponse(res, 404, "Category not found !!");
+    }
+
+    return errorResponse(res, 200, {
+      message: "SubCategory deleted successfully :))",
+      category: deletedCategory,
+    });
   } catch (err) {
     next(err);
   }

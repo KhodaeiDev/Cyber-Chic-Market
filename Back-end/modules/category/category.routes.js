@@ -7,6 +7,9 @@ const {
   fetchAllCategories,
   editCategory,
   deleteCategory,
+  getAllSubCategories,
+  getSubCategory,
+  deleteSubCategory,
 } = require("./category.controller");
 const { auth } = require("../../middleware/auth");
 const { isAdmin } = require("../../middleware/isAdmin");
@@ -32,13 +35,19 @@ router
   .get(fetchAllCategories);
 
 router
-  .route("/sub/")
-  .post(auth, isAdmin, validator(subCategoryValidator), createSubCategory);
-
-router
   .route("/:categoryId")
   .put(auth, isAdmin, editCategory)
   .delete(auth, isAdmin, deleteCategory);
+
+router
+  .route("/sub/")
+  .post(auth, isAdmin, validator(subCategoryValidator), createSubCategory)
+  .get(getAllSubCategories);
+
+router
+  .route("/sub/:categoryId")
+  .get(getSubCategory)
+  .delete(auth, isAdmin, deleteSubCategory);
 
 // router.route("/:href").get(getCategoryProducts);
 
