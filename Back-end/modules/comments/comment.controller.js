@@ -1,3 +1,4 @@
+const { isValidObjectId } = require("mongoose");
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const commentsModel = require("./../../models/comment");
 const productsModel = require("./../../models/product");
@@ -39,7 +40,21 @@ exports.createComment = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
   try {
-    //Codes
+    const { commentId } = req.params;
+
+    if (!isValidObjectId(commentId)) {
+      return errorResponse(res, 400, "Comment ID is not correct !!");
+    }
+
+    const deletedComment = await commentsModel.findByIdAndDelete(commentId);
+    if (!deletedComment) {
+      return errorResponse(res, 400, "Comment not found !!");
+    }
+
+    return successResponse(res, 200, {
+      message: "Comment deleted successfully :))",
+      comment: deletedComment,
+    });
   } catch (err) {
     next(err);
   }
