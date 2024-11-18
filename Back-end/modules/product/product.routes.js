@@ -20,7 +20,7 @@ const router = express.Router();
 router.route("/").post(auth, isAdmin, upload.array("images", 5), addProduct);
 //   .get(getAllProducts);
 
-router.route("/:id").delete(auth, isAdmin, deleteProduct).get(getProduct);
+router.route("/:id").delete(deleteProduct).get(getProduct);
 
 // router.route("/addToFavorit/:productID").post(auth, addToFavorit);
 

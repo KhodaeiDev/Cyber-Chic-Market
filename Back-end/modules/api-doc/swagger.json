@@ -275,6 +275,19 @@
     },
 
     "/category/sub": {
+      "get": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Get all sub categories",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All sub categories will be returned"
+          },
+          "404": {
+            "description": "Sub Categories Not Found!!"
+          }
+        }
+      },
       "post": {
         "tags": ["Sub Category 📂"],
         "summary": "Create a sub category",
@@ -314,6 +327,148 @@
           },
           "401": {
             "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+
+    "/category/sub/{categoryId}": {
+      "get": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Get a sub category",
+        "description": "",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SubCategory will be returned"
+          },
+          "400": {
+            "description": "Category ID is not correct !!"
+          },
+          "404": {
+            "description": "SubCategory not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Remove a sub category",
+        "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "400": {
+            "description": "Category ID is not correct !!"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "SubCategory not found"
+          }
+        }
+      }
+    },
+
+    "/locations/": {
+      "get": {
+        "tags": ["Location 🗺"],
+        "summary": "Get all locations",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "cities, provinces, and neighborhoods will be returned"
+          }
+        }
+      }
+    },
+
+    "/api/v1/products/{id}": {
+      "get": {
+        "tags": ["Products 📦"],
+        "summary": "get one product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "specfied product will be returned"
+          },
+          "400": {
+            "description": "Product ID is not correct !!"
+          },
+          "404": {
+            "description": "Product not found !!"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Products 📦"],
+        "summary": "delete product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted product will be returned"
+          },
+          "400": {
+            "description": "Product ID is not correct !!"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Product not found !!"
           }
         }
       }

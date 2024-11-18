@@ -11,8 +11,8 @@ const schema = mongoose.Schema(
       required: true,
     },
     image: {
-      path: { type: String, required: true, trim: true },
-      filename: { type: String, required: true, trim: true },
+      path: { type: String, required: false, trim: true },
+      filename: { type: String, required: false, trim: true },
     },
 
     parent: {

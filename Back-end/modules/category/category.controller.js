@@ -40,13 +40,13 @@ exports.createCategory = async (req, res, next) => {
     const { title, href, parent } = req.body;
 
     const isExistCategory = await categoryModel.findOne({
-      $or: { href, title },
+      $or: { href },
     });
     if (isExistCategory) {
       return errorResponse(res, 403, "category is already exist");
     }
 
-    let image = null;
+    let image = undefined;
     if (req.file) {
       const { filename } = req.file;
 
@@ -145,12 +145,12 @@ exports.createSubCategory = async (req, res, next) => {
   try {
     const { title, href, parent } = req.body;
 
-    const isExistCategory = await categoryModel.findOne({
-      $or: { href, title },
-    });
-    if (isExistCategory) {
-      return errorResponse(res, 401, "SubCategory is already exist");
-    }
+    // const isExistCategory = await subCategoryModel.findOne({
+    //   $or: { href },
+    // });
+    // if (isExistCategory) {
+    //   return errorResponse(res, 401, "SubCategory is already exist");
+    // }
 
     const checkCategory = await categoryModel.findOne({ _id: parent });
     if (!checkCategory) {
