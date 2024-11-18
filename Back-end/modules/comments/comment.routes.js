@@ -1,13 +1,24 @@
 const express = require("express");
-const { auth } = require("./../../middlewares/auth");
-const roleGuard = require("./../../middlewares/roleGuard");
+const { auth } = require("./../../middleware/auth");
 const { isAdmin } = require("../../middleware/isAdmin");
+const validator = require("../../middleware/validator");
+const { createCommentValidator } = require("./comment.validator");
+const {
+  addReply,
+  createComment,
+  deleteComment,
+  deleteReply,
+  getComments,
+} = require("./comment.controller");
 
 const router = express.Router();
 
-router.route("/").get(getComments).post(auth, createComment);
+router
+  .route("/")
+  .get(getComments)
+  .post(auth, validator(createCommentValidator), createComment);
 
-router.route("/:commentId").delete(auth, roleGuard("ADMIN"), deleteComment);
+router.route("/:commentId").delete(auth, isAdmin, deleteComment);
 
 router.route("/:commentId/reply").post(auth, addReply);
 

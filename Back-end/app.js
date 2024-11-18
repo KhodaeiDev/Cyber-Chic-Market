@@ -8,6 +8,7 @@ const categoryRouter = require("./modules/category/category.routes");
 const locationsRouter = require("./modules/locations/locations.routes.js");
 const userRouter = require("./modules/user/user.routes");
 const productRouter = require("./modules/product/product.routes");
+const commentsRouter = require("./modules/comments/comment.routes.js");
 // const profileRouter = require("./modules/profile/profile.routes");
 const swaggerRoutes = require("./modules/api-doc/swagger.routes");
 const { errorHandler } = require("./middleware/errorHandller.js");
@@ -33,6 +34,7 @@ app.use("/locations", locationsRouter);
 app.use("/users", userRouter);
 app.use("/category", categoryRouter);
 app.use("/products", productRouter);
+app.use("/comments", commentsRouter);
 // app.use("/profile", profileRouter);
 app.use("/apis", swaggerRoutes);
 
