@@ -5,7 +5,25 @@ const productsModel = require("./../../models/product");
 
 exports.getComments = async (req, res, next) => {
   try {
-    //Codes
+    const { productId } = req.query;
+    if (!isValidObjectId(productId)) {
+      return errorResponse(res, 400, "Comment ID is not correct !!");
+    }
+
+    const comments = await commentsModel
+      .find({
+        product: productId,
+      })
+      .populate({ path: "user", select: "username fullname" })
+      .populate({
+        path: "replies",
+        populate: {
+          path: "user",
+          select: "username fullname",
+        },
+      });
+
+    return successResponse(res, 200, comments);
   } catch (err) {
     next(err);
   }
