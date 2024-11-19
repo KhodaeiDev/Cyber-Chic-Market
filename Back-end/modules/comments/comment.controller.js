@@ -80,7 +80,32 @@ exports.deleteComment = async (req, res, next) => {
 
 exports.addReply = async (req, res, next) => {
   try {
-    //Codes
+    const user = req.user;
+    const { commentId } = req.params;
+    const { content } = req.body;
+
+    if (!isValidObjectId(commentId)) {
+      return errorResponse(res, 400, "Comment ID is not correct !!");
+    }
+
+    const reply = await commentsModel.findByIdAndUpdate(
+      commentId,
+      {
+        $push: {
+          replies: {
+            content,
+            user: user._id,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!reply) {
+      return errorResponse(res, 404, "Comment not found !!");
+    }
+
+    return successResponse(res, 200, { reply });
   } catch (err) {
     next(err);
   }

@@ -2,7 +2,10 @@ const express = require("express");
 const { auth } = require("./../../middleware/auth");
 const { isAdmin } = require("../../middleware/isAdmin");
 const validator = require("../../middleware/validator");
-const { createCommentValidator } = require("./comment.validator");
+const {
+  createCommentValidator,
+  addReplyValidator,
+} = require("./comment.validator");
 const {
   addReply,
   createComment,
@@ -20,7 +23,9 @@ router
 
 router.route("/:commentId").delete(auth, isAdmin, deleteComment);
 
-router.route("/:commentId/reply").post(auth, addReply);
+router
+  .route("/:commentId/reply")
+  .post(auth, validator(addReplyValidator), addReply);
 
 router.route("/:commentId/reply/:replyId").delete(auth, isAdmin, deleteReply);
 
