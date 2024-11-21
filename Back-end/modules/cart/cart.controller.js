@@ -5,7 +5,16 @@ const cartModel = require("../../models/cart");
 
 exports.getCart = async (req, res, next) => {
   try {
-    //Codes
+    const user = req.user;
+
+    const cart = await cartModel
+      .findOne({ user: user._id })
+      .populate({ path: "items.product" });
+    if (!cart) {
+      return errorResponse(res, 404, "User Cart Not Found !!");
+    }
+
+    return successResponse(res, 200, { cart });
   } catch (err) {
     next(err);
   }
