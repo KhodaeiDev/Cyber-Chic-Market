@@ -13,7 +13,7 @@ const orderItemSchema = new mongoose.Schema({
     min: 1,
   },
 
-  totalPrice: {
+  price: {
     type: Number,
     required: true,
   },
@@ -52,11 +52,11 @@ const orderShcema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["PROCESSING", "SIPPED", "DELIVERED"],
+      enum: ["PROCESSING", "SENT", "DELIVERED"],
       default: "PROCESSING",
     },
 
-    authority: {
+    orderCode: {
       type: String,
       unique: true,
       required: true,
