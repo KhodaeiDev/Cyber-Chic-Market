@@ -1,6 +1,7 @@
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const cartModel = require("./../../models/cart");
 const orderModel = require("./../../models/order");
+const productModel = require("./../../models/product");
 
 exports.getAllOrders = async (req, res, next) => {
   try {
@@ -46,6 +47,13 @@ exports.ordersRegistration = async (req, res, next) => {
     });
     if (!newOrder) {
       return errorResponse(res, 400, "Order don't Registration");
+    }
+
+    for (const item of newOrder.items) {
+      const product = await productModel.findOne({ _id: item.product });
+
+      product.quantity -= item.quantity;
+      await product.save();
     }
 
     return successResponse(res, 200, {
