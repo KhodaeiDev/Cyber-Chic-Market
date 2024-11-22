@@ -1,7 +1,7 @@
 const exporess = require("express");
-const { auth } = require("../..//middleware/auth");
-const { isAdmin } = require("../..//middleware/isAdmin");
-const { getAllOrders, updateOrder } = require("../../controllers/v1/order");
+const { auth } = require("../../middleware/auth");
+const { isAdmin } = require("../../middleware/isAdmin");
+const { getAllOrders, updateOrder } = require("./order.controller.js");
 
 const router = exporess.Router();
 

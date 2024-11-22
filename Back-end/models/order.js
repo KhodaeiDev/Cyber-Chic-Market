@@ -12,6 +12,11 @@ const orderItemSchema = new mongoose.Schema({
     required: true,
     min: 1,
   },
+
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
 });
 
 const orderShcema = new mongoose.Schema(
@@ -24,30 +29,19 @@ const orderShcema = new mongoose.Schema(
 
     items: [orderItemSchema],
 
+    phone: {
+      type: String,
+      required: true,
+    },
+
     shippingAddress: {
       postalCode: {
         type: String,
         required: true,
       },
 
-      coordinates: {
-        lat: {
-          type: Number,
-          required: true,
-        },
-        lng: {
-          type: Number,
-          required: true,
-        },
-      },
-
       address: {
         type: String,
-        required: true,
-      },
-
-      cityId: {
-        type: Number,
         required: true,
       },
     },
