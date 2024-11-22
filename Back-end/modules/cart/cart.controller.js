@@ -34,6 +34,8 @@ exports.addToCart = async (req, res, next) => {
       return errorResponse(res, 404, "Product not found!!");
     }
 
+    const productPrice = product.price;
+
     const cart = await cartModel.findOne({ user: user._id });
     if (!cart) {
       const newCart = await cartModel.create({
@@ -42,6 +44,7 @@ exports.addToCart = async (req, res, next) => {
           {
             quantity,
             product: productId,
+            productPrice,
           },
         ],
       });
@@ -61,6 +64,7 @@ exports.addToCart = async (req, res, next) => {
       cart.items.push({
         product: productId,
         quantity,
+        productPrice,
       });
     }
 
