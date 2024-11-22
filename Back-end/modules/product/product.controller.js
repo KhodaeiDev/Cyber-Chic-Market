@@ -143,6 +143,22 @@ exports.addProduct = async (req, res, next) => {
   }
 };
 
+exports.myFavorites = async (req, res, next) => {
+  try {
+    const userID = req.user._id;
+    console.log("test");
+
+    const favorites = await favoritModel.find({ user: userID }).populate({
+      path: "product",
+      select: "name _id price href quantity images",
+    });
+
+    return res.json(favorites);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -191,81 +207,48 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
-// exports.addToFavorit = async (req, res, next) => {
-//   try {
-//     const { productID } = req.params;
-//     const userID = req.user._id;
+exports.addOrRemoveFavorit = async (req, res, next) => {
+  try {
+    const { productID } = req.params;
+    const user = req.user;
+    if (!isValidObjectId(productID)) {
+      return errorResponse(res, 404, "Product Id Not valid");
+    }
 
-//     const product = await productModel.findOne({ _id: productID });
-//     if (!product) {
-//       return res.status(404).json("Producy Not Found");
-//     }
+    const product = await productModel.findOne({ _id: productID });
+    if (!product) {
+      return errorResponse(res, 404, "Product Not Found");
+    }
+    const favoritProduct = await favoritModel.findOne({
+      product: productID,
+      user: user._id,
+    });
 
-//     const user = await userModel.findOne({ _id: userID });
-//     if (!user) {
-//       return res.status(404).json("User Not Found");
-//     }
+    if (!favoritProduct) {
+      const favorit = await favoritModel.create({
+        product: productID,
+        user: user._id,
+      });
+      return successResponse(res, 201, {
+        message: "Product Add To Favorit Successfullyt",
+        favorit,
+      });
+    } else {
+      await favoritModel.findOneAndDelete({
+        product: productID,
+        user: user._id,
+      });
 
-//     await favoritModel.create({ product: productID, user: userID });
-//     return res
-//       .status(201)
-//       .json("محصول مورد نظر به لیست علاقه مندی ها اضافه شد");
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// exports.removeFavorites = async (req, res, next) => {
-//   try {
-//     const { productID } = req.params;
-//     const userID = req.user._id;
-
-//     const product = await productModel.findOne({ _id: productID });
-//     if (!product) {
-//       return res.status(404).json("Product Not Found");
-//     }
-
-//     const user = await userModel.findOne({ _id: userID });
-//     if (!user) {
-//       return res.status(404).json("User Not Found");
-//     }
-
-//     const isProductInFavorit = await favoritModel.findOne({
-//       product: productID,
-//     });
-//     if (!isProductInFavorit) {
-//       return res
-//         .status(404)
-//         .json("محصول مورد نظر در لیست علاقه مندی ها وجود ندارد ");
-//     }
-
-//     await favoritModel.findOneAndDelete({ product: productID, user: userID });
-
-//     return res.json("محصول مورد نظر از لیست علاقه مندی ها حذف شد");
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// exports.myFavorites = async (req, res, next) => {
-//   try {
-//     const userID = req.user._id;
-
-//     const user = await userModel.findOne({ _id: userID });
-//     if (!user) {
-//       return res.status(404).json("User Not Found");
-//     }
-
-//     const favorites = await favoritModel.find({ user: userID }).populate({
-//       path: "product",
-//       select: "name _id cover price sendingTime",
-//     });
-
-//     return res.json(favorites);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+      return errorResponse(
+        res,
+        200,
+        "Product has been Removed From Favorit List"
+      );
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 // exports.priceSortProducts = async (req, res, next) => {
 //   try {
