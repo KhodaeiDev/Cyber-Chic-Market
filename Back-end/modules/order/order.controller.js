@@ -17,6 +17,7 @@ exports.ordersRegistration = async (req, res, next) => {
     const { phone, postalCode, address, orderCode } = req.body;
 
     const cart = await cartModel.findOne({ user: user._id });
+
     if (!cart || cart.items.length === 0) {
       return errorResponse(
         res,
@@ -55,6 +56,12 @@ exports.ordersRegistration = async (req, res, next) => {
       product.quantity -= item.quantity;
       await product.save();
     }
+
+    await cartModel.updateOne(
+      { user: user._id },
+      { $set: { items: [] } },
+      { new: true }
+    );
 
     return successResponse(res, 200, {
       message: "The order was successfully placed",

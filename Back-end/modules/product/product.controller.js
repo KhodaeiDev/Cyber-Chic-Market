@@ -70,18 +70,25 @@ exports.addProduct = async (req, res, next) => {
 
     attributes = JSON.parse(attributes);
 
+    if (!isValidObjectId(subCategory) || !isValidObjectId(category)) {
+      return errorResponse(
+        res,
+        401,
+        "Category Id Or SubCategory Id is not Valid !!"
+      );
+    }
+
     const categoryChek = await categoryModel.findOne({
       _id: category,
     });
-    if (!isValidObjectId(category) || !categoryChek) {
-      return errorResponse(res, 400, "Category not defined !!");
-    }
 
-    const subCategoryChek = await subCategoryModel.findOne({
-      _id: subCategory,
-    });
-    if (!isValidObjectId(subCategory) || !subCategoryChek) {
-      return errorResponse(res, 400, "SubCategory not defined !!");
+    const [subCategoryChek] = await Promise.all([
+      categoryModel.findById(subCategory),
+      subCategoryModel.findById(subCategory),
+    ]);
+
+    if (!subCategoryChek || !categoryChek) {
+      return errorResponse(res, 404, "Sub Category Or Category not found !!");
     }
 
     await createProductValidator.validate(

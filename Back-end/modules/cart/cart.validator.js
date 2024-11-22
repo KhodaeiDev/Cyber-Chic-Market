@@ -13,7 +13,7 @@ const addToCartValidator = yup.object({
     .required("Quantity is required")
     .positive()
     .integer()
-    .max(1, "You cannot add more than 1 of each product to the cart"),
+    .max(2, "You cannot add more than 1 of each product to the cart"),
 });
 
 const removeFromCartValidator = yup.object({

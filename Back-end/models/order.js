@@ -58,7 +58,6 @@ const orderShcema = new mongoose.Schema(
 
     orderCode: {
       type: String,
-      unique: true,
       required: true,
     },
   },

@@ -17,7 +17,7 @@ const createProductValidator = yup.object().shape({
   href: yup
     .string()
     .required("href is required")
-    .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be URL-friendly").unigue,
+    .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be URL-friendly"),
 
   description: yup
     .string()
