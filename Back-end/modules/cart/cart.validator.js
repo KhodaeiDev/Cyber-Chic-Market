@@ -8,7 +8,12 @@ const addToCartValidator = yup.object({
     .test("is-valid-object-id", "Invalid product ID", (value) =>
       isValidObjectId(value)
     ),
-  quantity: yup.number().required("Quantity is required").positive().integer(),
+  quantity: yup
+    .number()
+    .required("Quantity is required")
+    .positive()
+    .integer()
+    .max(1, "You cannot add more than 1 of each product to the cart"),
 });
 
 const removeFromCartValidator = yup.object({

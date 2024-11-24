@@ -7,11 +7,17 @@ const { isValidObjectId } = require("mongoose");
 exports.fetchAllCategoriesAndSubcategories = async (req, res, next) => {
   try {
     const fetchSubcategoriesRecursively = async (parentId = null) => {
-      const subCategories = await subCategoryModel.find({ parent: parentId });
+      const subCategories = await subCategoryModel.find(
+        { parent: parentId },
+        { createdAt: 0, updatedAt: 0, __v: 0, parent: 0 }
+      );
       const parentSubCategories = await categoryModel
-        .find({
-          parent: parentId,
-        })
+        .find(
+          {
+            parent: parentId,
+          },
+          { createdAt: 0, updatedAt: 0, __v: 0, parent: 0 }
+        )
         .lean();
 
       const fetchedParentSubCategories = [];
@@ -38,13 +44,6 @@ exports.fetchAllCategoriesAndSubcategories = async (req, res, next) => {
 exports.createCategory = async (req, res, next) => {
   try {
     const { title, href, parent } = req.body;
-
-    const isExistCategory = await categoryModel.findOne({
-      $or: { href },
-    });
-    if (isExistCategory) {
-      return errorResponse(res, 403, "category is already exist");
-    }
 
     let image = undefined;
     if (req.file) {
@@ -144,13 +143,6 @@ exports.deleteCategory = async (req, res, next) => {
 exports.createSubCategory = async (req, res, next) => {
   try {
     const { title, href, parent } = req.body;
-
-    // const isExistCategory = await subCategoryModel.findOne({
-    //   $or: { href },
-    // });
-    // if (isExistCategory) {
-    //   return errorResponse(res, 401, "SubCategory is already exist");
-    // }
 
     const checkCategory = await categoryModel.findOne({ _id: parent });
     if (!checkCategory) {

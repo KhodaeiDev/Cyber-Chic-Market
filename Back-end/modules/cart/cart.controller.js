@@ -5,7 +5,16 @@ const cartModel = require("../../models/cart");
 
 exports.getCart = async (req, res, next) => {
   try {
-    //Codes
+    const user = req.user;
+
+    const cart = await cartModel
+      .findOne({ user: user._id })
+      .populate({ path: "items.product" });
+    if (!cart) {
+      return errorResponse(res, 404, "User Cart Not Found !!");
+    }
+
+    return successResponse(res, 200, { cart });
   } catch (err) {
     next(err);
   }
@@ -25,6 +34,8 @@ exports.addToCart = async (req, res, next) => {
       return errorResponse(res, 404, "Product not found!!");
     }
 
+    const productPrice = product.price;
+
     const cart = await cartModel.findOne({ user: user._id });
     if (!cart) {
       const newCart = await cartModel.create({
@@ -33,6 +44,7 @@ exports.addToCart = async (req, res, next) => {
           {
             quantity,
             product: productId,
+            productPrice,
           },
         ],
       });
@@ -52,6 +64,7 @@ exports.addToCart = async (req, res, next) => {
       cart.items.push({
         product: productId,
         quantity,
+        productPrice,
       });
     }
 
@@ -64,7 +77,29 @@ exports.addToCart = async (req, res, next) => {
 
 exports.removeFromCart = async (req, res, next) => {
   try {
-    //Codes
+    const user = req.user;
+    const { productId } = req.body;
+
+    const cart = await cartModel.findOne({ user: user._id });
+    if (!cart) {
+      return errorResponse(res, 404, "User Cart Not Found !!");
+    }
+
+    const itemIndex = cart.items.findIndex(
+      (item) => item.product.toString() === productId.toString()
+    );
+
+    if (itemIndex === -1) {
+      return errorResponse(res, 404, "Product Not Found in User Cart");
+    }
+
+    await cart.items.splice(itemIndex, 1);
+    await cart.save();
+
+    return successResponse(res, 200, {
+      message: "Product Remove successfylly From User Cart",
+      cart: cart,
+    });
   } catch (err) {
     next(err);
   }
