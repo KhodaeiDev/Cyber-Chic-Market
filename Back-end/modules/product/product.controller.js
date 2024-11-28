@@ -82,12 +82,12 @@ exports.addProduct = async (req, res, next) => {
       _id: category,
     });
 
-    const [subCategoryChek] = await Promise.all([
+    const [subCategoryChek, subCategoryChek2] = await Promise.all([
+      subCategoryModel.findOne({ _id: subCategory }),
       categoryModel.findById(subCategory),
-      subCategoryModel.findById(subCategory),
     ]);
 
-    if (!subCategoryChek || !categoryChek) {
+    if ((!subCategoryChek && !subCategoryChek2) || !categoryChek) {
       return errorResponse(res, 404, "Sub Category Or Category not found !!");
     }
 
