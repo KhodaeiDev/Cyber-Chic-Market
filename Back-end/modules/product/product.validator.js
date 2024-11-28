@@ -22,7 +22,7 @@ const createProductValidator = yup.object().shape({
   description: yup
     .string()
     .required("Product description is required")
-    .max(1000, "Product description cannot exceed 1000 characters"),
+    .max(2500, "Product description cannot exceed 1000 characters"),
 
   subCategory: yup
     .string()
