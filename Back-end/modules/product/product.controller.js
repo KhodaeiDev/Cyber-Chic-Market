@@ -118,6 +118,7 @@ exports.getAllProducts = async (req, res, next) => {
       minPrice,
       maxPrice,
       attributes,
+      brand,
       page = 1,
       limit = 10,
     } = req.query;
@@ -128,6 +129,11 @@ exports.getAllProducts = async (req, res, next) => {
 
     if (name) {
       filters.name = { $regex: name, $options: "i" };
+    }
+
+    if (brand) {
+      const brandArray = Array.isArray(brand) ? brand : [brand];
+      filters.brand = { $in: brandArray };
     }
 
     if (subCategory) {

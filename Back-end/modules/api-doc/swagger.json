@@ -407,7 +407,6 @@
         }
       }
     },
-
     "/products": {
       "post": {
         "tags": ["Products 📦"],
@@ -507,9 +506,77 @@
             "description": "Sub Category Or Category not found !!"
           }
         }
+      },
+      "get": {
+        "tags": ["Products 📦"],
+        "summary": "get list of products",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "subCategory",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "array"
+            },
+            "description": "Filter by one or more brands"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "attributes",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "{\"color\": \"blue\"}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list of products will be returned with their rating"
+          }
+        }
       }
     },
-
     "/products/{id}": {
       "get": {
         "tags": ["Products 📦"],
@@ -792,6 +859,193 @@
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      }
+    },
+
+    "/comments/": {
+      "post": {
+        "tags": ["Comments ✍🏻"],
+        "summary": "Add comment to product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created comment will be returned"
+          },
+          "403": {
+            "description": "Product Id not correct"
+          },
+          "404": {
+            "description": "Product not found !!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Comments ✍🏻"],
+        "summary": "Get product comments",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "product comments and replies will be returned"
+          },
+          "400": {
+            "description": "Product ID is not correct !!"
+          }
+        }
+      }
+    },
+
+    "/comments/{commentId}": {
+      "delete": {
+        "tags": ["Comments ✍🏻"],
+        "summary": "delete comment",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "commentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted comment will be returned"
+          },
+          "403": {
+            "description": "Comment ID is not correct !!"
+          },
+          "404": {
+            "description": "Comment Not found for Deleted"
+          }
+        }
+      }
+    },
+
+    "/comments/{commentId}/reply": {
+      "post": {
+        "tags": ["Comments ✍🏻"],
+        "summary": "reply to a comment",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "commentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "created reply will be returned"
+          },
+          "400": {
+            "description": "Comment Id not correct"
+          }
+        }
+      }
+    },
+
+    "/comments/{commentId}/reply/{replyId}": {
+      "delete": {
+        "tags": ["Comments ✍🏻"],
+        "summary": "delete reply",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "replyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted reply will be returned"
+          },
+          "400": {
+            "description": "Comment or Reply id is not correct !!"
+          },
+          "404": {
+            "description": "Comment Or reply not found !!"
+          },
+          "403": {
+            "description": "You have not access to this action !!"
           }
         }
       }

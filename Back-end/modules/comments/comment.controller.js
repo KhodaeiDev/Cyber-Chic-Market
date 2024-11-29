@@ -7,7 +7,7 @@ exports.getComments = async (req, res, next) => {
   try {
     const { productId } = req.query;
     if (!isValidObjectId(productId)) {
-      return errorResponse(res, 400, "Comment ID is not correct !!");
+      return errorResponse(res, 400, "Product ID is not correct !!");
     }
 
     const comments = await commentsModel
@@ -33,6 +33,10 @@ exports.createComment = async (req, res, next) => {
   try {
     const user = req.user;
     const { rating, content, productId } = req.body;
+
+    if (!isValidObjectId(productId)) {
+      return errorResponse(res, 403, "Product Id not correct ");
+    }
 
     const product = await productsModel.findOne({ _id: productId });
     if (!product) {
@@ -61,12 +65,12 @@ exports.deleteComment = async (req, res, next) => {
     const { commentId } = req.params;
 
     if (!isValidObjectId(commentId)) {
-      return errorResponse(res, 400, "Comment ID is not correct !!");
+      return errorResponse(res, 403, "Comment ID is not correct !!");
     }
 
     const deletedComment = await commentsModel.findByIdAndDelete(commentId);
     if (!deletedComment) {
-      return errorResponse(res, 400, "Comment not found !!");
+      return errorResponse(res, 404, "Comment not found !!");
     }
 
     return successResponse(res, 200, {
