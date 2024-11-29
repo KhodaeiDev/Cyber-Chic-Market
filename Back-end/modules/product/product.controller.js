@@ -9,48 +9,8 @@ const {
   updateProductValidator,
 } = require("./product.validator");
 const { errorResponse, successResponse } = require("../../helpers/responses");
-const { isValidObjectId } = require("mongoose");
-
-// exports.getAllProducts = async (req, res, next) => {
-//   try {
-//     const categories = await categoryModel.find();
-//     const products = await productModel.find().sort({ _id: -1 });
-
-//     const categorizedProducts = categories.map((category) => {
-//       return {
-//         title: category.title,
-//         items: products
-//           .filter(
-//             (product) => product.category.toString() === category._id.toString()
-//           )
-//           .map((product) => ({
-//             id: product._id,
-//             name: product.name,
-//             title: product.title,
-//             description: product.description,
-//             brand: product.brand,
-//             subCategory: product.subCategory,
-//             cover: product.cover,
-//             images: product.images,
-//             color: product.color,
-//             price: product.price,
-//             discountPrice: product.discountPrice,
-//             discount: product.discount,
-//             resolution: product.resolution,
-//             size: product.size,
-//             ability: product.ability,
-//             operatingSystem: product.operatingSystem,
-//             technology: product.technology,
-//             Bluetooth: product.Bluetooth,
-//             sendingTime: product.sendingTime,
-//           })),
-//       };
-//     });
-//     return res.json(categorizedProducts);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+const { isValidObjectId, default: mongoose } = require("mongoose");
+const { createPaginationData } = require("../../utils");
 
 exports.addProduct = async (req, res, next) => {
   try {
@@ -144,6 +104,102 @@ exports.addProduct = async (req, res, next) => {
     return successResponse(res, 201, {
       message: "Product created successfully :))",
       product: newProduct,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getAllProducts = async (req, res, next) => {
+  try {
+    const {
+      name,
+      subCategory,
+      minPrice,
+      maxPrice,
+      attributes,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const filters = {
+      quantity: { $gt: 0 },
+    };
+
+    if (name) {
+      filters.name = { $regex: name, $options: "i" };
+    }
+
+    if (subCategory) {
+      filters.$or = [
+        {
+          subCategory: mongoose.Types.ObjectId.createFromHexString(subCategory),
+        },
+        { category: mongoose.Types.ObjectId.createFromHexString(subCategory) },
+      ];
+    }
+
+    if (minPrice) {
+      filters["price"] = { $gte: +minPrice };
+    }
+
+    if (maxPrice) {
+      filters["price"] = { $lte: +maxPrice };
+    }
+
+    if (attributes) {
+      const parsedAttributes = JSON.parse(attributes);
+      Object.keys(parsedAttributes).forEach((key) => {
+        filters[`attributes.${key}`] = parsedAttributes[key];
+      });
+    } // filters -> { ... }
+
+    const products = await productModel.aggregate([
+      {
+        $match: filters,
+      },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "product",
+          as: "comments",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: {
+            $cond: {
+              if: { $gt: [{ $size: "$comments" }, 0] },
+              then: { $avg: `$comments.rating` },
+              else: 0,
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          comments: 0,
+        },
+      },
+      {
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: +limit,
+      },
+    ]);
+
+    const totalProducts = await productModel.countDocuments(filters);
+
+    return successResponse(res, 200, {
+      products,
+      pagination: createPaginationData(
+        +page,
+        +limit,
+        totalProducts,
+        "Products"
+      ),
     });
   } catch (err) {
     next(err);

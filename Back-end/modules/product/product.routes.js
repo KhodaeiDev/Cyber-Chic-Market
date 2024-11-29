@@ -18,8 +18,10 @@ const upload = multerStorage("public/images/product");
 
 const router = express.Router();
 
-router.route("/").post(auth, isAdmin, upload.array("images", 5), addProduct);
-//   .get(getAllProducts);
+router
+  .route("/")
+  .post(auth, isAdmin, upload.array("images", 5), addProduct)
+  .get(getAllProducts);
 
 router.route("/favorites").get(auth, myFavorites);
 
