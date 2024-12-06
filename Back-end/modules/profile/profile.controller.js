@@ -29,12 +29,11 @@ exports.getUserInfo = async (req, res, next) => {
 exports.editProfile = async (req, res, next) => {
   try {
     const user = req.user;
-    const userData = {};
 
     const { fullName, email, username, phone, cardNumber, shabaNumber } =
       req.body;
 
-    await editValidator.validate(req.body);
+    const userData = {};
 
     if (fullName) userData.fullName = fullName;
     if (email) userData.email = email;
@@ -53,9 +52,9 @@ exports.editProfile = async (req, res, next) => {
       )
       .select("-password");
     if (!updateUser) {
-      return res.status(200).json({ message: "Profile Not Updated" });
+      return errorResponse(res, 404, "Profile Not Updated");
     }
-    return res.status(200).json({ user: updateUser });
+    return successResponse(res, 200, { user: updateUser });
   } catch (err) {
     next(err);
   }
