@@ -5,7 +5,26 @@ const productModel = require("./../../models/product");
 
 exports.getAllOrders = async (req, res, next) => {
   try {
-    //
+    const { status } = req.query;
+    const user = req.user;
+
+    const validStatuses = ["PROCESSING", "SENT", "DELIVERED"];
+    if (status && !validStatuses.includes(status)) {
+      return errorResponse(res, 400, "Invalid status provided");
+    }
+
+    const filterOrder = { user: user._id };
+
+    if (status) {
+      filterOrder.status = status;
+    }
+
+    const orders = await orderModel.find(filterOrder).populate("items.product");
+
+    return successResponse(res, 200, {
+      message: `Orders whose status is in the ${status} state`,
+      orders,
+    });
   } catch (err) {
     next(err);
   }

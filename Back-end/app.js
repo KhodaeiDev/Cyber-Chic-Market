@@ -11,7 +11,7 @@ const productRouter = require("./modules/product/product.routes");
 const commentsRouter = require("./modules/comments/comment.routes.js");
 const cartRouter = require("./modules/cart/cart.routes.js");
 const orderRouter = require("./modules/order/order.routes.js");
-// const profileRouter = require("./modules/profile/profile.routes");
+const profileRouter = require("./modules/profile/profile.routes");
 const swaggerRoutes = require("./modules/api-doc/swagger.routes");
 const { errorHandler } = require("./middleware/errorHandller.js");
 
@@ -38,8 +38,8 @@ app.use("/category", categoryRouter);
 app.use("/products", productRouter);
 app.use("/comments", commentsRouter);
 app.use("/cart", cartRouter);
-app.use("/order", orderRouter);
-// app.use("/profile", profileRouter);
+app.use("/orders", orderRouter);
+app.use("/profile", profileRouter);
 app.use("/apis", swaggerRoutes);
 
 app.use(errorHandler);
