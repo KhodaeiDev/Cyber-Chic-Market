@@ -1,11 +1,6 @@
 const userModel = require("./../../models/User");
 const orderModel = require("./../../models/order");
 const bcrypt = require("bcrypt");
-const {
-  editValidator,
-  resetPasswordValidator,
-} = require("./profile.validator");
-
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const cities = require("./../../cities/cities.json");
 
@@ -62,15 +57,8 @@ exports.editProfile = async (req, res, next) => {
 
 exports.updatePassword = async (req, res, next) => {
   try {
-    const { password, confirmPassword } = req.body;
+    const { password } = req.body;
     const userID = req.user._id;
-
-    const user = await userModel.findOne({ _id: userID });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    await resetPasswordValidator.validate({ password, confirmPassword });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

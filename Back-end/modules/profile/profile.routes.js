@@ -10,12 +10,18 @@ const {
 const { auth } = require("./../../middleware/auth");
 const router = express.Router();
 const validator = require("./../../middleware/validator");
-const { editValidator } = require("./profile.validator");
+const {
+  editValidator,
+  resetPasswordValidator,
+} = require("./profile.validator");
 
 router.route("/").get(auth, getUserInfo);
 
 router.route("/edit").post(auth, validator(editValidator), editProfile);
-// router.route("/updatePassword").post(auth, controller.updatePassword);
+
+router
+  .route("/updatePassword")
+  .post(auth, validator(resetPasswordValidator), updatePassword);
 
 router
   .route("/me/addresses")

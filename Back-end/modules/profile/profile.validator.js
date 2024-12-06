@@ -10,9 +10,9 @@ const editValidator = yup.object({
     .optional(),
   username: yup
     .string()
-    .required("نام کاربری اجباری است")
-    .min(6, "نام کاربری حداقل باید 6 کاراکتر باشد")
-    .max(32, "نام کاربری حداکثر باید 32 کاراکتر باشد")
+    .required("Username is required")
+    .min(6, "Username must be at least 6 characters long")
+    .max(32, "Username must be 32 characters maximum.")
     .required("Username is a required"),
   phone: yup.string().required(),
   cardNumber: yup
@@ -31,12 +31,15 @@ const editValidator = yup.object({
 const resetPasswordValidator = yup.object({
   password: yup
     .string()
-    .min(8, "رمز عبور باید حداقل 8 کاراکتر داشته باشد")
-    .max(45, "رمز عبور باید حداکثر 45 کاراکتر داشته باشد")
-    .required("رمز عبور اجباری است"),
+    .min(8, "Password must have at least 8 characters")
+    .max(45, "Password must have a maximum of 45 characters")
+    .required("Password is Required"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "رمز عبود همخوانی ندارد"),
+    .oneOf(
+      [yup.ref("password"), null],
+      "The Confirm Password does not match with password"
+    ),
 });
 
 module.exports = { editValidator, resetPasswordValidator };
