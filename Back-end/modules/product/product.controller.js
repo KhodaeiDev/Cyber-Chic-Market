@@ -215,14 +215,13 @@ exports.getAllProducts = async (req, res, next) => {
 exports.myFavorites = async (req, res, next) => {
   try {
     const userID = req.user._id;
-    console.log("test");
 
     const favorites = await favoritModel.find({ user: userID }).populate({
       path: "product",
       select: "name _id price href quantity images",
     });
 
-    return res.json(favorites);
+    return successResponse(res, 200, { favorites });
   } catch (err) {
     next(err);
   }
@@ -318,30 +317,3 @@ exports.addOrRemoveFavorit = async (req, res, next) => {
     next(err);
   }
 };
-
-// exports.priceSortProducts = async (req, res, next) => {
-//   try {
-//     const { maxPrice } = req.query;
-//     const { subcategoryhref } = req.params;
-
-//     const subCategory = await subCategoryModel.findOne({
-//       href: subcategoryhref,
-//     });
-//     if (!subCategory) {
-//       return res.status(404).json("دسته بندی مورد نظر یافت نشد");
-//     }
-
-//     const products = await productModel
-//       .find({
-//         $and: [{ subCategory: subCategory._id }, { price: { $lt: maxPrice } }],
-//       })
-//       .select("cover name price category subCategory");
-//     if (!products) {
-//       return res.status(404).json("محصول مورد نظر یافت نشد");
-//     }
-
-//     return res.json(products);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
