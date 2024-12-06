@@ -51,6 +51,4 @@ router
   .get(getSubCategory)
   .delete(auth, isAdmin, deleteSubCategory);
 
-// router.route("/:href").get(getCategoryProducts);
-
 module.exports = router;
