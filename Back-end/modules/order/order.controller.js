@@ -1,7 +1,7 @@
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const cartModel = require("./../../models/cart");
 const orderModel = require("./../../models/order");
-const productModel = require("./../../models/product");
+const productModel = require("./../../models/Product");
 
 exports.getAllOrders = async (req, res, next) => {
   try {

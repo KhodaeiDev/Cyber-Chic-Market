@@ -1,5 +1,5 @@
 const fs = require("fs");
-const productModel = require("./../../models/product");
+const productModel = require("../../models/Product");
 const subCategoryModel = require("./../../models/SubCategory");
 const categoryModel = require("./../../models/Category");
 const favoritModel = require("./../../models/FavoritProduct");

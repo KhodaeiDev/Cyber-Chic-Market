@@ -1,6 +1,6 @@
 const { isValidObjectId } = require("mongoose");
 const { errorResponse, successResponse } = require("./../../helpers/responses");
-const productModel = require("./../../models/product");
+const productModel = require("./../../models/Product");
 const cartModel = require("./../../models/cart");
 
 exports.getCart = async (req, res, next) => {
