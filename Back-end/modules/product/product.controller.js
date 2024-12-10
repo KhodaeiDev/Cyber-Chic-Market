@@ -3,7 +3,6 @@ const productModel = require("./../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
 const categoryModel = require("./../../models/Category");
 const favoritModel = require("./../../models/FavoritProduct");
-const userModel = require("./../../models/User");
 const {
   createProductValidator,
   updateProductValidator,
