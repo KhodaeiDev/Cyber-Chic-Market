@@ -1,6 +1,5 @@
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const categoryModel = require("./../../models/Category");
-const productModel = require("../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
 const { isValidObjectId } = require("mongoose");
 
