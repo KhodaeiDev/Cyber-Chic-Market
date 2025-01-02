@@ -4,11 +4,54 @@ import Features from "../components/Features";
 import Footer from "../components/Footer";
 import Product from "../components/Product";
 import Category from "../components/Category";
+import httphostname from "../httphostname";
+import { useEffect } from "react";
+import axios from "axios";
 
 function CategorySearch() {
  let dbbrands = ["سامسونگ", "اپل", "هواوی", "سونی", "ایسوس", "نوکیا"];
  let dbsistems = ["اندروید", "ios", "ویندوزفون", "سایر"];
  let dbcolors = ["سیاه", "قرمز", "زرد", "آبی"];
+
+ const fetchProducts = async (params) => {
+  try {
+    const response = await axios.get(`${httphostname}/products`, {
+      params: {
+        page: params.page,
+        limit: params.limit,
+        subCategory: params.subCategory,
+        name: params.name,
+        brand: params.brand, // این باید یک آرایه باشد
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+        attributes: params.attributes, // به صورت JSON string
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+
+  const handleFetch = () => {
+    const params = {
+      page: 1,
+      limit: 10,
+      subCategory: 'laptop',
+      name: 'laptop',
+      brand: ['Apple', 'Dell'],
+      minPrice: 500,
+      maxPrice: 2000,
+      attributes: JSON.stringify({ color: 'blue' }),
+    };
+
+    fetchProducts(params);
+  };
+
+  useEffect(()=>{
+    handleFetch()
+  },[])
+
  return (
   <div className=" w-full h-full max-w-[1440px] pt-24 lg:pt-0 mx-auto flex gap-5 flex-col justify-between items-center" dir="rtl">
    <Header_mobile />
