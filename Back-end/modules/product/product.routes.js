@@ -22,7 +22,7 @@ router
 
 router.route("/favorites").get(auth, myFavorites);
 
-router.route("/:id").delete(deleteProduct).get(getProduct);
+router.route("/:id").delete(auth, isAdmin, deleteProduct).get(getProduct);
 router.route("/favorite/:productID").post(auth, addOrRemoveFavorit);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const { isValidObjectId } = require("mongoose");
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const commentsModel = require("./../../models/comment");
-const productsModel = require("./../../models/product");
+const productsModel = require("./../../models/Product");
 
 exports.getComments = async (req, res, next) => {
   try {

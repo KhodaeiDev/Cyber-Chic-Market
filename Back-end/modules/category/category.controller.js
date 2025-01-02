@@ -1,6 +1,5 @@
 const { errorResponse, successResponse } = require("../../helpers/responses");
 const categoryModel = require("./../../models/Category");
-const productModel = require("../../models/product");
 const subCategoryModel = require("./../../models/SubCategory");
 const { isValidObjectId } = require("mongoose");
 
@@ -222,25 +221,3 @@ exports.deleteSubCategory = async (req, res, next) => {
     next(err);
   }
 };
-
-// exports.getCategoryProducts = async (req, res, next) => {
-//   try {
-//     const { href } = req.params;
-
-//     const category = await categoryModel.findOne({ href });
-//     if (!category) {
-//       return res.status(404).json("دسته بندی مورد نظر یافت نشد");
-//     }
-
-//     const categoryProducts = await productModel.find({
-//       category: category._id,
-//     });
-//     if (!categoryProducts) {
-//       return res.status(404).json("محصولی یافت نشد");
-//     }
-
-//     return res.json(categoryProducts);
-//   } catch (err) {
-//     next(err);
-//   }
-// };

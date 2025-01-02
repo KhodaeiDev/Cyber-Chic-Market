@@ -73,12 +73,19 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.getMe = async (req, res, next) => {
+exports.banUser = async (req, res, next) => {
   try {
-    const user = req.user;
-    user.password = undefined;
+    const { userId } = req.params;
 
-    return successResponse(res, 200, { user });
+    const user = await userModel.findOne({ _id: userId });
+    if (!user) {
+      return errorResponse(res, 404, "User Not Found");
+    }
+
+    await banModel.create({ phone: user.phone });
+    await userModel.findOneAndDelete({ _id: user.id });
+
+    return successResponse(res, 200, "User Banned successfully");
   } catch (err) {
     next(err);
   }
