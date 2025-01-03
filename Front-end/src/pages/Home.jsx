@@ -33,7 +33,7 @@ import Category from "../components/Category";
 
 function Home() {
  const products = useSelector((state) => state.products);
- console.log(products);
+ 
  let links = [
   {
    link: "/",
