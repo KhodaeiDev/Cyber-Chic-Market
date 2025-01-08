@@ -51,11 +51,11 @@ const schema = mongoose.Schema(
       required: false,
     },
     cardNumber: {
-      type: Number,
+      type: String,
       required: false,
     },
     shabaNumber: {
-      type: Number,
+      type: String,
       required: false,
     },
     addresses: [addresSchema],

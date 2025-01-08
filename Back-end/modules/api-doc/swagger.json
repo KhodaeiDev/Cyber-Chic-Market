@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "< Cyber-chic - Shop APIS 💚 >",
+    "title": "< Cyber-chic - Shop APIS ❤️💻 >",
     "description": "",
     "version": "1.0.0"
   },
@@ -99,29 +99,6 @@
         }
       }
     },
-    "/auth/me": {
-      "get": {
-        "tags": ["Auth 🔐"],
-        "summary": "Get user's data with token",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "user data will be returned"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "The user has already been banned(Blocked)"
-          }
-        }
-      }
-    },
 
     "/category/": {
       "get": {
@@ -135,7 +112,7 @@
         }
       },
       "post": {
-        "tags": ["Category 📁"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "Create a new category",
         "description": "",
         "security": [
@@ -184,10 +161,9 @@
         }
       }
     },
-
     "/category/{categoryId}": {
       "put": {
-        "tags": ["Category 📁"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "Edit a category",
         "description": "",
         "security": [
@@ -242,7 +218,7 @@
         }
       },
       "delete": {
-        "tags": ["Category 📁"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "Remove a category",
         "description": "",
         "security": [
@@ -273,7 +249,6 @@
         }
       }
     },
-
     "/category/sub": {
       "get": {
         "tags": ["Sub Category 📂"],
@@ -289,7 +264,7 @@
         }
       },
       "post": {
-        "tags": ["Sub Category 📂"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "Create a sub category",
         "description": "",
         "security": [
@@ -331,7 +306,6 @@
         }
       }
     },
-
     "/category/sub/{categoryId}": {
       "get": {
         "tags": ["Sub Category 📂"],
@@ -360,7 +334,7 @@
         }
       },
       "delete": {
-        "tags": ["Sub Category 📂"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "Remove a sub category",
         "description": "",
         "security": [
@@ -407,9 +381,10 @@
         }
       }
     },
+
     "/products": {
       "post": {
-        "tags": ["Products 📦"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "create new product",
         "security": [
           {
@@ -609,7 +584,7 @@
         }
       },
       "delete": {
-        "tags": ["Products 📦"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "delete product",
         "security": [
           {
@@ -662,7 +637,6 @@
         }
       }
     },
-
     "/cart/add": {
       "post": {
         "tags": ["Cart 🛒"],
@@ -705,7 +679,6 @@
         }
       }
     },
-
     "/cart/remove": {
       "post": {
         "tags": ["Cart 🛒"],
@@ -743,9 +716,34 @@
       }
     },
 
-    "/users/me/addresses": {
+    "/profile/": {
+      "get": {
+        "tags": ["Profile 👤"],
+        "summary": "Get user's data with token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "user data will be returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "The user has already been banned(Blocked)"
+          }
+        }
+      }
+    },
+    "/profile/edit": {},
+    "/profile/updatePassword": {},
+    "/profile/me/addresses": {
       "post": {
-        "tags": ["Users 👤"],
+        "tags": ["Profile 👤"],
         "summary": "add address",
         "security": [
           {
@@ -800,9 +798,9 @@
         }
       }
     },
-    "/users/me/addresses/{addressId}": {
+    "/profile/me/addresses/{addressId}": {
       "delete": {
-        "tags": ["Users 👤"],
+        "tags": ["Profile 👤"],
         "summary": "delete address",
         "security": [
           {
@@ -830,39 +828,8 @@
       }
     },
 
-    "/users/ban/{userId}": {
-      "post": {
-        "tags": ["Admin Dashboard 📈"],
-        "summary": "Ban user and remove his/her account",
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User banned successfully"
-          },
-          "401": {
-            "description": "Admin Token is not valid"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      }
-    },
+    "/orders/edit": {},
+    "/orders/verify": {},
 
     "/comments/": {
       "post": {
@@ -928,10 +895,9 @@
         }
       }
     },
-
     "/comments/{commentId}": {
       "delete": {
-        "tags": ["Comments ✍🏻"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "delete comment",
         "security": [
           {
@@ -961,7 +927,6 @@
         }
       }
     },
-
     "/comments/{commentId}/reply": {
       "post": {
         "tags": ["Comments ✍🏻"],
@@ -1006,10 +971,9 @@
         }
       }
     },
-
     "/comments/{commentId}/reply/{replyId}": {
       "delete": {
-        "tags": ["Comments ✍🏻"],
+        "tags": ["Admin Dashboard 📈"],
         "summary": "delete reply",
         "security": [
           {
@@ -1046,6 +1010,40 @@
           },
           "403": {
             "description": "You have not access to this action !!"
+          }
+        }
+      }
+    },
+
+    "/auth/ban/{userId}": {
+      "post": {
+        "tags": ["Admin Dashboard 📈"],
+        "summary": "Ban user and remove his/her account",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User banned successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
