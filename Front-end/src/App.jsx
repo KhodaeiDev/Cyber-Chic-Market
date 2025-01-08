@@ -79,7 +79,7 @@ function App() {
    <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/category/:title" element={<CategorySearch />} />
-    <Route path="/cart" element={user ? <Cart /> : <Navigate to={"/login"} />} />
+    <Route path="/cart" element={true ? <Cart /> : <Navigate to={"/login"} />} />
     <Route path="/dashbord" element={user ? <Dashbord /> : <Navigate to={"/login"} />} />
     <Route path="/login" element={<LoginAndSinup />} />
     <Route path="/showproduct/:id" element={<ShowProduct />} />
