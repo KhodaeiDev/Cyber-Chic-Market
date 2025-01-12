@@ -6,6 +6,7 @@ const {
   myFavorites,
   deleteProduct,
   addOrRemoveFavorit,
+  discountedProducts,
 } = require("./product.controller");
 const { multerStorage } = require("./../../middleware/uoloader");
 const { auth } = require("./../../middleware/auth");
@@ -21,6 +22,7 @@ router
   .get(getAllProducts);
 
 router.route("/favorites").get(auth, myFavorites);
+router.route("/discounted").get(discountedProducts);
 
 router.route("/:id").delete(auth, isAdmin, deleteProduct).get(getProduct);
 router.route("/favorite/:productID").post(auth, addOrRemoveFavorit);

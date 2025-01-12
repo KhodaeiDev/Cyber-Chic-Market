@@ -179,8 +179,6 @@ exports.getSubCategory = async (req, res, next) => {
   try {
     const { categoryId } = req.params;
 
-    console.log(categoryId);
-
     if (!isValidObjectId(categoryId)) {
       return errorResponse(res, 400, "Category ID is not correct !!");
     }

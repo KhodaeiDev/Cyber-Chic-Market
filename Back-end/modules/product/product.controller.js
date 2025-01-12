@@ -226,6 +226,24 @@ exports.myFavorites = async (req, res, next) => {
   }
 };
 
+exports.discountedProducts = async (req, res, next) => {
+  try {
+    const discountedProduct = await productModel
+      .find({
+        discountPercent: { $gt: 0 },
+      })
+      .select("-description -createdAt -updatedAt -__v");
+
+    if (!discountedProduct.length) {
+      return errorResponse(res, 404, "No discounted Products found!");
+    }
+
+    return successResponse(res, 200, { discountedProduct });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;

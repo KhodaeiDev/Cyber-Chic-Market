@@ -618,6 +618,49 @@
       }
     },
 
+    "/products/discounted": {
+      "get": {
+        "summary": "Get all discounted products",
+        "description": "Fetch all products with a discount greater than 0.",
+        "tags": ["Products 📦"],
+        "responses": {
+          "200": {
+            "description": "A list of discounted products.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "discountedProduct": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "65a1bc2d3f8b1c0f1e5d4a6b"
+                          },
+                          "name": { "type": "string", "example": "Laptop XYZ" },
+                          "price": { "type": "number", "example": 20000000 },
+                          "discountPercent": { "type": "number", "example": 20 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No discounted products found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+
     "/cart": {
       "get": {
         "tags": ["Cart 🛒"],
