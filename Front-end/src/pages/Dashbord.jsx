@@ -15,6 +15,7 @@ import Messages from "../components/Dashbord/Messages";
 import Profile from "../components/Dashbord/Profile";
 import EditInformation from "../components/Dashbord/EditInformation";
 import SecurityAndPassword from "../components/Dashbord/SecurityAndPassword";
+import { useSelector } from "react-redux";
 
 function Dashbord() {
  const [activeTab, setActiveTab] = useState("Addresses");
@@ -54,6 +55,9 @@ function Dashbord() {
 export default Dashbord;
 
 const ShowProf = () => {
+    const user = useSelector((state)=> state.authuser.user)
+    console.log(user);
+    
  return (
   <div className=" max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
    {/* Header */}
@@ -70,7 +74,7 @@ const ShowProf = () => {
 
    {/* User Info */}
    <div className="text-center px-6 py-4">
-    <h2 className="text-xl font-bold">ابوالفضل ملاشاهی</h2>
+    <h2 className="text-xl font-bold">{user.username}</h2>
     <div className="mt-4">
      <button className="bg-teal-500 text-white px-4 py-2 rounded-full">افزایش موجودی</button>
      <button className="ml-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">مسای کلاب</button>

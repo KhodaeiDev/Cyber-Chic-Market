@@ -9,7 +9,7 @@ function Addresses() {
    <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-teal-500 ">آدرس ها</h2>
    <div className=" w-full flex  flex-col gap-4 p-2 rounded-lg  shadow-lg">
     {[...Array(5)].map((item, k) => (
-     <Showaddress />
+     <Showaddress key={k} />
     ))}
    </div>
   </div>

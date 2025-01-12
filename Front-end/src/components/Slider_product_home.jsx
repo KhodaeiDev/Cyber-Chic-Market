@@ -16,40 +16,46 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { NavLink } from "react-router-dom";
 
 function Slider_product_home() {
-  return (
-    <div className=" w-full max-w-[1440px] slider_home_product pt-[10px] " dir="ltr">
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 28500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper"
-      >
-        <SwiperSlide>
-          <NavLink to={"/category"}>
-            <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={img1} />
-          </NavLink>
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavLink to={"/category"}>
-            <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={img2} />
-          </NavLink>
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavLink to={"/category"}>
-            <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={img3} />
-          </NavLink>
-        </SwiperSlide>
-      </Swiper>
-    </div>
-  );
+ const sliders = [
+  {
+   img: img1,
+   link: "smart-watch",
+  },
+  {
+   img: img2,
+   link: "phone",
+  },
+  {
+   img: img3,
+   link: "laptap",
+  },
+ ];
+ return (
+  <div className=" w-full max-w-[1440px] slider_home_product pt-[10px] " dir="ltr">
+   <Swiper
+    spaceBetween={30}
+    centeredSlides={true}
+    autoplay={{
+     delay: 28500,
+     disableOnInteraction: false,
+    }}
+    pagination={{
+     clickable: true,
+    }}
+    navigation={true}
+    modules={[Autoplay, Pagination, Navigation]}
+    className="mySwiper"
+   >
+    {sliders.map((item, k) => (
+     <SwiperSlide key={k}>
+      <NavLink to={`/category/${item.link}`}>
+       <img className=" w-full h-full object-cover rounded-xl !z-[90]" src={item.img} alt="smart-watch" />
+      </NavLink>
+     </SwiperSlide>
+    ))}
+   </Swiper>
+  </div>
+ );
 }
 
 export default Slider_product_home;
