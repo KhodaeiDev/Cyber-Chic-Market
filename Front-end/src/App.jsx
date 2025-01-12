@@ -56,12 +56,11 @@ function App() {
       };
      });
 
-    //  console.log("قبل", data);
-     console.log("بعد", catssort);
+    //  console.log("بعد", catssort);
 
      dispatch(setCategorys(catssort));
     } catch (error) {
-     console.log("error ", error?.response?.data?.message || error.message);
+     console.log("error ", error.message);
     } finally {
      setloading(false);
     }
@@ -79,7 +78,7 @@ function App() {
    <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/category/:title" element={<CategorySearch />} />
-    <Route path="/cart" element={true ? <Cart /> : <Navigate to={"/login"} />} />
+    <Route path="/cart" element={user ? <Cart /> : <Navigate to={"/login"} />} />
     <Route path="/dashbord" element={user ? <Dashbord /> : <Navigate to={"/login"} />} />
     <Route path="/login" element={<LoginAndSinup />} />
     <Route path="/showproduct/:id" element={<ShowProduct />} />

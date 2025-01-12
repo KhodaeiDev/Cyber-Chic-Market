@@ -10,6 +10,7 @@ function Product() {
      <img
        className=" w-[350px] h-[450px] md:w-[200px] md:h-[300px] object-cover rounded-xl"
        src={phoneimg}
+       loading="lazy"
        alt=""
      />
      <p>گوشی</p>
