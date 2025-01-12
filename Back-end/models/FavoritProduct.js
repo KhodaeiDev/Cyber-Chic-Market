@@ -2,20 +2,20 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema(
   {
-    product: {
-      type: mongoose.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
     user: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
+    items: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const model = mongoose.model("Favorit ", schema);
+const model = mongoose.model("Favorit", schema);
 
 module.exports = model;
