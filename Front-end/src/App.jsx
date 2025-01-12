@@ -56,12 +56,11 @@ function App() {
       };
      });
 
-    //  console.log("قبل", data);
-     console.log("بعد", catssort);
+    //  console.log("بعد", catssort);
 
      dispatch(setCategorys(catssort));
     } catch (error) {
-     console.log("error ", error?.response?.data?.message || error.message);
+     console.log("error ", error.message);
     } finally {
      setloading(false);
     }
