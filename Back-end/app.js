@@ -13,6 +13,7 @@ const orderRouter = require("./modules/order/order.routes.js");
 const profileRouter = require("./modules/profile/profile.routes");
 const swaggerRoutes = require("./modules/api-doc/swagger.routes");
 const { errorHandler } = require("./middleware/errorHandller.js");
+const { errorResponse } = require("./helpers/responses.js");
 
 const app = express();
 
