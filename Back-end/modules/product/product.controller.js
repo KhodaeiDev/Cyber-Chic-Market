@@ -122,6 +122,8 @@ exports.getAllProducts = async (req, res, next) => {
       limit = 10,
     } = req.query;
 
+    let user = req.user;
+
     const filters = {
       quantity: { $gt: 0 },
     };
@@ -159,6 +161,12 @@ exports.getAllProducts = async (req, res, next) => {
       });
     } // filters -> { ... }
 
+    const userFavorites = user
+      ? await favoritModel
+          .findOne({ user: user._id })
+          .then((fav) => fav?.items.map((item) => item.toString()) || [])
+      : [];
+
     const products = await productModel.aggregate([
       {
         $match: filters,
@@ -180,6 +188,7 @@ exports.getAllProducts = async (req, res, next) => {
               else: 0,
             },
           },
+          isFavorite: { $in: [{ $toString: "$_id" }, userFavorites] },
         },
       },
       {
@@ -292,44 +301,65 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
-exports.addOrRemoveFavorit = async (req, res, next) => {
+exports.addToFavorites = async (req, res, next) => {
   try {
-    const { productID } = req.params;
+    const { productId } = req.params;
     const user = req.user;
-    if (!isValidObjectId(productID)) {
-      return errorResponse(res, 404, "Product Id Not valid");
+
+    const product = await productModel.findById(productId);
+
+    if (!isValidObjectId(productId) || !product) {
+      return errorResponse(res, 404, { message: "Poroduct Not Found !!" });
     }
 
-    const product = await productModel.findOne({ _id: productID });
-    if (!product) {
-      return errorResponse(res, 404, "Product Not Found");
+    await favoritModel.findOneAndUpdate(
+      { user: user._id },
+      { $addToSet: { items: productId } },
+      { upsert: true }
+    );
+
+    return successResponse(res, 201, {
+      message: "Product Add to Favorite List",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.removeFromFavorites = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    const user = req.user;
+
+    if (!isValidObjectId(productId)) {
+      return errorResponse(res, 400, {
+        message: "Poroduct Id not Valid format!!",
+      });
     }
-    const favoritProduct = await favoritModel.findOne({
-      product: productID,
-      user: user._id,
+
+    const userFavorites = await favoritModel.findOne({ user: user._id });
+    if (!userFavorites) {
+      return errorResponse(res, 404, {
+        message: "There is no product in your Favorite list!!",
+      });
+    }
+
+    const product = userFavorites.items.findIndex((item) => {
+      return item.toString() === productId.toString();
     });
 
-    if (!favoritProduct) {
-      const favorit = await favoritModel.create({
-        product: productID,
-        user: user._id,
+    if (product === -1) {
+      return errorResponse(res, 404, {
+        message: "This Product is not in your Favorite list !!",
       });
-      return successResponse(res, 201, {
-        message: "Product Add To Favorit Successfullyt",
-        favorit,
-      });
-    } else {
-      await favoritModel.findOneAndDelete({
-        product: productID,
-        user: user._id,
-      });
-
-      return errorResponse(
-        res,
-        200,
-        "Product has been Removed From Favorit List"
-      );
     }
+
+    userFavorites.items.splice(product, 1);
+    await userFavorites.save();
+
+    return successResponse(res, 200, {
+      message: "Product Removed From Your Favorites",
+    });
   } catch (err) {
     next(err);
   }
