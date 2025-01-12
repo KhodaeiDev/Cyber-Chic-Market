@@ -39,6 +39,11 @@ app.use("/cart", cartRouter);
 app.use("/orders", orderRouter);
 app.use("/profile", profileRouter);
 app.use("/apis", swaggerRoutes);
+app.use("*", (req, res) => {
+  return errorResponse(res, 404, {
+    message: "404 Error ! Not Found this Routes :)",
+  });
+});
 
 app.use(errorHandler);
 
