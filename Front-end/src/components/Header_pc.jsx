@@ -45,7 +45,7 @@ function Header_pc() {
     <ul className="flex gap-4 items-center font-semibold text-[15px] xl:text-[17px]">
      <li className=" cursor-pointer relative group/group1">
       دسته بندی کالا ها
-      <ul className="hidden absolute rigth-0 top-5 px-2 py-2 group-hover/group1:flex flex-col gap-5 bg-white rounded-r-xl ">
+      <ul className="hidden absolute h-[305px] rigth-0 top-5 px-2 py-2 group-hover/group1:flex flex-col gap-5 bg-white rounded-r-xl shad-r-b ">
        {categorys.map((item, k) => (
         <ul key={k} className=" flex gap-1 group/item  relative ">
          <NavLink
@@ -56,7 +56,7 @@ function Header_pc() {
             index: k
         })}
       to={`/category/${item.href}`}
-          className={` px-3 w-full py-2 text-center  text-nowrap p-1d rounded-r-lg hover:bg-sky-100 ${menu.title == item.title ? " bg-sky-100" : ""} `}
+          className={` px-5 w-full py-2 text-center  text-nowrap rounded-r-lg hover:bg-sky-50 ${menu.title == item.title ? " bg-sky-50 z-20" : ""} `}
          >
           {item.title}
          </NavLink>
@@ -75,7 +75,7 @@ function Header_pc() {
            : menu.title == "تبلت"
            ? "-top-[193px]"
            : "-top-[254px]"
-         } p-1 right-[136px] w-[600px] lg:w-[700px] h-[305px] bg-sky-100 rounded-l-xl  `}
+         } p-2 right-[136px] w-[600px] lg:w-[700px] h-[305px] bg-sky-50 rounded-xl shad-l-b  `}
         >
          { menu.sub.map((ite, k) => (
            <ul key={k} className={` p-2 ${ite.priority === 1 ? "h-max col-span-3 " :" h-[240px] flex flex-col w-full "} `}>

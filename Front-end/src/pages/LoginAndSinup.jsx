@@ -65,8 +65,10 @@ function LoginAndSinup() {
   setMessage(""); // پاک کردن پیام‌های قبلی
   setloading(true); // شروع حالت بارگذاری
   console.log(formData);
+  console.log(`${httphostname}/auth/register`);
   try {
    const response = await axios.post(`${httphostname}/auth/register`, formData);
+   
    const { newUser, message, accessToken } = response.data.data;
    setMessage(message);
    dispatch(setUser(newUser));
