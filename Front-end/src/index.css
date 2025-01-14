@@ -35,3 +35,10 @@ body {
 .btn-pro{
   @apply py-1 px-3 md:w-[150px] md:h-[40px] md:text-nowrap rounded-lg transition-all shadow-sm shadow-black 
 }
+
+.shad-r-b{
+  box-shadow: 1px 3px 10px rgba(74, 74, 74, 0.725);
+}
+.shad-l-b{
+  box-shadow: 1px 3px 10px rgba(74, 74, 74, 0.725);
+}
