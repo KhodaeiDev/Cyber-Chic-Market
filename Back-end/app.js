@@ -26,6 +26,7 @@ app.use(cookieParser());
 
 //* Cors Policy (Set Headers)
 app.use(setHeaders);
+app.options("*", setHeaders);
 
 //* Static folder
 app.use("/images", express.static(path.join(__dirname, "public/images")));
