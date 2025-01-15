@@ -41,8 +41,23 @@ const getResetPassCodeValidator = yup.object({
     .required(),
 });
 
+const resetPasswordValidator = yup.object({
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters long.")
+    .max(45, "Password must be a maximum of 45 characters")
+    .required("Password is Required"),
+  confirmPassword: yup
+    .string()
+    .oneOf(
+      [yup.ref("password"), null],
+      "The Password does not match with confirmPassword"
+    ),
+});
+
 module.exports = {
   registerValidator,
   loginValidator,
   getResetPassCodeValidator,
+  resetPasswordValidator,
 };

@@ -172,6 +172,40 @@ exports.verifyResetPasswordCode = async (req, res, next) => {
   }
 };
 
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    const { token } = req.params;
+
+    const verifyUser = await resetPasswordModel.findOne({ token });
+    if (!verifyUser) {
+      return errorResponse(res, 403, {
+        message: "Invalid token or User not found",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = await userModel.findOneAndUpdate(
+      { _id: verifyUser.user },
+      {
+        $set: { password: hashedPassword },
+      },
+      { new: true }
+    );
+
+    user.password = undefined;
+
+    await resetPasswordModel.findByIdAndDelete({ _id: verifyUser._id });
+
+    return successResponse(res, 200, {
+      message: { message: "Password Updated Successfully" },
+      user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.banUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
