@@ -3,6 +3,7 @@ const banModel = require("./../../models/ban");
 const bcrypt = require("bcrypt");
 const resetPasswordModel = require("./../../models/resetPassword");
 const nodeMailer = require("nodemailer");
+const crypto = require("crypto");
 const { createAccessToken } = require("../../utils/auth");
 const { successResponse, errorResponse } = require("../../helpers/responses");
 
@@ -119,6 +120,53 @@ exports.getResetPasswordCode = async (req, res, next) => {
     transporter.sendMail(mailOptions);
 
     return successResponse(res, 200, { message: "Reset Password Code Sent" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.verifyResetPasswordCode = async (req, res, next) => {
+  try {
+    const { code, email } = req.body;
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return errorResponse(res, 404, { message: "Email not Valid!!" });
+    }
+
+    const findCode = await resetPasswordModel.findOne({ user: user._id });
+    if (!findCode) {
+      return errorResponse(res, 400, {
+        message: "The entered code is not correct",
+      });
+    }
+
+    if (code === findCode.code && findCode.expireIn.getTime() < Date.now()) {
+      await resetPasswordModel.findByIdAndDelete({ _id: findCode._id });
+      return successResponse(res, 403, {
+        message: "The Time of Code has expired , Plz Get a new one",
+      });
+    }
+
+    if (code === findCode.code && findCode.expireIn.getTime() > Date.now()) {
+      const userToken = crypto.randomBytes(24).toString("hex");
+
+      await resetPasswordModel.findOneAndUpdate(
+        { user: user._id },
+        {
+          $set: { token: userToken },
+        }
+      );
+
+      return successResponse(res, 200, {
+        message: "Verified Code Successfully",
+        userToken,
+      });
+    }
+
+    return errorResponse(res, 400, {
+      message: "The entered code is not correct",
+    });
   } catch (err) {
     next(err);
   }

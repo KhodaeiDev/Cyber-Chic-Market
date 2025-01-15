@@ -4,6 +4,7 @@ const {
   register,
   banUser,
   getResetPasswordCode,
+  verifyResetPasswordCode,
 } = require("./auth.controller");
 const validator = require("./../../middleware/validator");
 const {
@@ -23,6 +24,7 @@ router.route("/login").post(validator(loginValidator), login);
 router
   .route("/getCode")
   .post(validator(getResetPassCodeValidator), getResetPasswordCode);
+router.route("/verifyCode").post(verifyResetPasswordCode);
 
 router.route("/ban/:userId").post(auth, isAdmin, banUser);
 
