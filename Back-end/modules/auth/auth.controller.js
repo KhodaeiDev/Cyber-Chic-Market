@@ -1,12 +1,14 @@
 const userModel = require("./../../models/User");
 const banModel = require("./../../models/ban");
 const bcrypt = require("bcrypt");
+const resetPasswordModel = require("./../../models/resetPassword");
+const nodeMailer = require("nodemailer");
 const { createAccessToken } = require("../../utils/auth");
 const { successResponse, errorResponse } = require("../../helpers/responses");
 
 exports.register = async (req, res, next) => {
   try {
-    const { username, phone, password } = req.body;
+    const { username, phone, password, email } = req.body;
 
     const isBanUser = await banModel.findOne({ phone });
     if (isBanUser) {
@@ -15,7 +17,7 @@ exports.register = async (req, res, next) => {
 
     //* Exist User
     const isExistUser = await userModel.findOne({
-      $or: [{ username }, { phone }],
+      $or: [{ username }, { phone }, { email }],
     });
     if (isExistUser) {
       return errorResponse(res, 403, "Username Or Phone are Already exist");
@@ -30,6 +32,7 @@ exports.register = async (req, res, next) => {
     const newUser = await userModel.create({
       username,
       phone,
+      email,
       role: userCount === 0 ? "ADMIN" : "USER",
       password: hashedPassword,
     });
@@ -51,7 +54,6 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-console.log(username, password);
 
     const user = await userModel.findOne({ username });
     if (!user) {
@@ -69,6 +71,54 @@ console.log(username, password);
       message: "User Logined Successfully",
       accessToken: accessToken,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getResetPasswordCode = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return errorResponse(res, 404, { message: "Email not Valid!!" });
+    }
+    await resetPasswordModel.findOneAndDelete({ user: user._id });
+
+    let resetCode = Math.floor(Math.random() * 99999) + 10000;
+
+    const resetTokenExpireTime = Date.now() + 1000 * 60 * 2;
+
+    const resetPassword = new resetPasswordModel({
+      user: user._id,
+      code: resetCode,
+      expireIn: resetTokenExpireTime,
+    });
+
+    resetPassword.save();
+
+    const transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Reset Password Code For Your Forniro Recovery Password",
+      html: `
+       <h2>Hi, ${user.fullname}</h2>
+       <h3> Your Recovery Password Code is ${resetCode} ✌️❤️</h3>
+      `,
+    };
+
+    transporter.sendMail(mailOptions);
+
+    return successResponse(res, 200, { message: "Reset Password Code Sent" });
   } catch (err) {
     next(err);
   }

@@ -1,5 +1,6 @@
 const yup = require("yup");
 
+let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 let phoneRegex =
   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 
@@ -10,6 +11,10 @@ const registerValidator = yup.object({
     .min(3, "نام کاربری حداقل باید 3 کارکتر باشد"),
   phone: yup.string().required(),
   // .matches(phoneRegex, "لطفا شماره تلفن معتبر وارد کنید"),
+  email: yup
+    .string()
+    .matches(emailRegex, "The email entered is not valid.")
+    .required(),
   password: yup
     .string()
     .min(8, "رمز عبور باید حداقل 8 کاراکتر داشته باشد")
@@ -29,4 +34,15 @@ const loginValidator = yup.object({
     .required("رمز عبور اجباری است"),
 });
 
-module.exports = { registerValidator, loginValidator };
+const getResetPassCodeValidator = yup.object({
+  email: yup
+    .string()
+    .matches(emailRegex, "The email entered is not valid.")
+    .required(),
+});
+
+module.exports = {
+  registerValidator,
+  loginValidator,
+  getResetPassCodeValidator,
+};
