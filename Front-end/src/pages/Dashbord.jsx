@@ -26,7 +26,7 @@ function Dashbord() {
 
    <div className=" w-full">
     <div className=" w-full flex gap-2 flex-col items-start justify-center lg:flex-row mt-5 p-2">
-     <div className=" w-[90%] lg:w-[400px] mx-auto">
+     <div className=" w-[90%] mx-auto md:flex md:w-full lg:flex-col lg:w-[400px] ">
       <ShowProf />
       <ButtensItem activeTab={activeTab} setActiveTab={setActiveTab} />
      </div>
@@ -62,7 +62,7 @@ const ShowProf = () => {
     }
     
  return (
-  <div className=" max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+  <div className=" w-full max-w-sm h-max mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
    {/* Header */}
    <div className="bg-div h-24"></div>
 
@@ -104,7 +104,7 @@ const ShowProf = () => {
 
 const ButtensItem = ({ activeTab, setActiveTab }) => {
  return (
-  <div className="max-w-sm mx-auto mt-3 bg-white shadow-lg rounded-lg overflow-hidden">
+  <div className=" w-full max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
    <ul className="flex flex-col text-right p-4 space-y-2 ">
     <li
      onClick={() => setActiveTab("DeliveryProducts")}
