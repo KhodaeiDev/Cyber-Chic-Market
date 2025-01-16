@@ -26,9 +26,11 @@ function App() {
    if (!token) return dispatch(clearUser());
 
    try {
-    const response = await axios.get(`${httphostname}/auth/me`, {
+    const response = await axios.get(`${httphostname}/profile/`, {
      headers: { Authorization: `Bearer ${token}` },
     });
+    console.log(response);
+    
     dispatch(setUser(response.data.data.user));
    } catch (error) {
     console.error("Error fetching user data:", error.response?.data.message);
