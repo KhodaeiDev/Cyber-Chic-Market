@@ -42,3 +42,22 @@ body {
 .shad-l-b{
   box-shadow: 1px 3px 10px rgba(74, 74, 74, 0.725);
 }
+
+/* /////////////// */
+
+.bg-div{
+  @apply bg-teal-500
+}
+
+.text-col{
+  @apply text-teal-700
+}
+
+.bg-btn-hover{
+  @apply bg-teal-50 transition-all scale-100  hover:bg-teal-100 hover:scale-110
+}
+
+.bg-btn{
+  @apply bg-teal-500 text-white transition-all scale-100  hover:bg-teal-600 hover:scale-110 
+}
+
