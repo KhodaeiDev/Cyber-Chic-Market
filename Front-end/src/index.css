@@ -58,7 +58,7 @@ body {
 }
 
 .bg-btn{
-  @apply bg-teal-500 text-white transition-all scale-100  hover:bg-teal-600 hover:scale-110 
+  @apply bg-teal-500 text-white transition-all scale-100 hover:bg-teal-600 hover:scale-110 
 }
 
 .border-col{
