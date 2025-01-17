@@ -6,8 +6,8 @@ import { IoPersonOutline } from "react-icons/io5";
 function Addresses() {
  return (
   <div className=" w-full mx-auto px-2">
-   <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-teal-500 ">آدرس ها</h2>
-   <div className=" w-full flex  flex-col gap-4 p-2 rounded-lg  shadow-lg">
+   <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-col ">آدرس ها</h2>
+   <div className=" w-full flex  flex-col gap-4 p-2 rounded-lg ">
     {[...Array(5)].map((item, k) => (
      <Showaddress key={k} />
     ))}
@@ -20,7 +20,7 @@ export default Addresses;
 
 function Showaddress() {
  return (
-  <div className=" w-full border shadow-lg rounded-lg p-2">
+  <div className=" w-full shadow-md rounded-lg p-2 flex flex-col gap-2">
    <p className=" flex items-center gap-1">
     <MdOutlinePlace className="text-blue-500 w-5 h-5 mr-2" />
     <span> خیابان امام، بعد میدان حشمت، نرسید به چهارراه میکائیل</span>
