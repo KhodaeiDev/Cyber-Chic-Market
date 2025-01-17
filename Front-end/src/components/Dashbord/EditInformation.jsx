@@ -2,11 +2,11 @@ import React from "react";
 
 function EditInformation() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-max pb-4 shadow-lg rounded-lg">
+    <div className="flex flex-col items-center justify-center min-h-max pb-4 shadow-md rounded-lg">
       <div className=" w-full flex flex-col justify-center lg:flex-row gap-8 p-8 bg-white  ">
-        {/* Personal Account Information */}
+        
         <div className="w-[80%] mx-auto lg:w-full p-4">
-          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-teal-500 pb-2 mb-4">
+          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-col pb-2 mb-4">
             اطلاعات حساب شخصی
           </h2>
           <div className="space-y-4">
@@ -64,7 +64,7 @@ function EditInformation() {
 
         {/* Bank Account Information */}
         <div className="w-[80%] mx-auto lg:w-full p-4">
-          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-teal-500 pb-2 mb-4">
+          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-col pb-2 mb-4">
             اطلاعات حساب بانکی
           </h2>
           <div className="space-y-4">
@@ -91,7 +91,7 @@ function EditInformation() {
           </div>
         </div>
       </div>
-      <button className="mt-8 px-6 py-2 bg-teal-500 text-white rounded-full hover:bg-teal-600 focus:outline-none">
+      <button className="mt-8 px-6 py-2 bg-btn rounded-full">
         ثبت اطلاعات کاربری
       </button>
     </div>
