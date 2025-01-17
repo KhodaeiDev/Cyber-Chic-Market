@@ -64,3 +64,6 @@ body {
 .border-col{
   @apply border-teal-500
 }
+.bg-inp{
+  @apply bg-teal-50 border-col
+}

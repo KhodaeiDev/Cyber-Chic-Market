@@ -8,7 +8,7 @@ function ProductReturn() {
 
    <div className=" mt-4 max-w-lg mx-auto flex flex-col items-center">
     <label className="block text-gray-600 mb-1"></label>
-    <input type="text" placeholder="12345678" className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none" />
+    <input type="text" placeholder="12345678" className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none" />
    <button className="mt-8 px-6 py-2 bg-btn rounded-full ">برسی محصول</button>
    </div>
 

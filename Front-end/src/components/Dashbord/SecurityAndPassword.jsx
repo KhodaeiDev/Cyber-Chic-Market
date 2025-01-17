@@ -13,7 +13,7 @@ function SecurityAndPassword() {
             <input
               type="password"
               placeholder="کلمه عبور حداقل باید ۶ کارکتر باشد"
-              className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+              className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none"
             />
           </div>
           
@@ -23,7 +23,7 @@ function SecurityAndPassword() {
             <input
               type="password"
               placeholder="تکرار کلمه عبور جدید"
-              className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+              className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none"
             />
           </div>
           
@@ -33,7 +33,7 @@ function SecurityAndPassword() {
           </button>
           
           {/* Password Security Message */}
-          <div className="p-4 mt-4 text-sm text-gray-600 bg-teal-50 border-l-4 border-col rounded">
+          <div className="p-4 mt-4 text-sm text-gray-600 bg-inp border-l-4 border-col rounded">
             رمز عبور خود را محافظت کرده و از افشای آن به دیگران خودداری کنید، همچنین از استفاده از رمزهای ضعیف و قابل پیش‌بینی جلوگیری کنید.
           </div>
         </div>
