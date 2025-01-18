@@ -13,7 +13,7 @@ function Messages() {
 
   return (
     <div className="w-[90%] mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-teal-500 ">پیغام‌ها</h2>
+      <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-col ">پیغام‌ها</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {messages.map((msg, index) => (
           <MessageCard key={index} message={msg.message} date={msg.date} />
@@ -27,7 +27,7 @@ export default Messages;
 
 function MessageCard({ message, date }) {
   return (
-    <div className="w-full border rounded-md p-4 flex flex-col gap-2 justify-between items-start shadow-sm">
+    <div className="w-full border rounded-md p-4 flex flex-col gap-2 justify-between items-start shadow-md">
       <p className="text-gray-700 flex items-start">
         <span className="text-green-500 ml-2">🔔</span>
         {message}

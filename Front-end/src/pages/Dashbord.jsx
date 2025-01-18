@@ -26,7 +26,7 @@ function Dashbord() {
 
    <div className=" w-full">
     <div className=" w-full flex gap-2 flex-col items-start justify-center lg:flex-row mt-5 p-2">
-     <div className=" w-[90%] lg:w-[400px] mx-auto">
+     <div className=" w-[90%] mx-auto md:flex md:w-full lg:flex-col lg:w-[400px] ">
       <ShowProf />
       <ButtensItem activeTab={activeTab} setActiveTab={setActiveTab} />
      </div>
@@ -55,18 +55,21 @@ function Dashbord() {
 export default Dashbord;
 
 const ShowProf = () => {
-    const user = useSelector((state)=> state.authuser.user)
-    console.log(user);
+    // const user = useSelector((state)=> state.authuser.user)
+    // console.log(user);
+    let user = {
+        username : "abol"
+    }
     
  return (
-  <div className=" max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+  <div className=" w-full max-w-sm h-max mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
    {/* Header */}
-   <div className="bg-teal-500 h-24"></div>
+   <div className="bg-div h-24"></div>
 
    {/* Profile Image */}
-   <div className="flex justify-center -mt-16">
+   <div className="flex justify-center -mt-[50px]">
     <img
-     className="w-32 h-32 object-cover rounded-full border-4 border-white"
+     className="w-32 h-32 object-cover rounded-full border-2 animate-bounce"
      src={imgperson}
      alt="User"
     />
@@ -76,24 +79,23 @@ const ShowProf = () => {
    <div className="text-center px-6 py-4">
     <h2 className="text-xl font-bold">{user.username}</h2>
     <div className="mt-4">
-     <button className="bg-teal-500 text-white px-4 py-2 rounded-full">افزایش موجودی</button>
-     <button className="ml-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">مسای کلاب</button>
+     <button className="bg-btn px-4 py-2 rounded-full">افزایش موجودی</button>
     </div>
    </div>
 
    {/* User Stats */}
    <div className="flex justify-around border-t px-6 py-4 text-sm text-gray-600">
     <div className="text-center">
-     <p className="font-bold text-lg">2</p>
+     <p className="font-bold text-lg text-blue-600">2</p>
      <p>سفارش جاری</p>
     </div>
     <div className="text-center">
-     <p className="font-bold text-lg">68</p>
-     <p>تحویل داده</p>
+     <p className="font-bold text-lg text-green-600">68</p>
+     <p>دریافت شده</p>
     </div>
     <div className="text-center">
-     <p className="font-bold text-lg">15</p>
-     <p>مرجوع شده</p>
+     <p className="font-bold text-lg text-red-600">15</p>
+     <p>متوقف شده</p>
     </div>
    </div>
   </div>
@@ -102,97 +104,97 @@ const ShowProf = () => {
 
 const ButtensItem = ({ activeTab, setActiveTab }) => {
  return (
-  <div className="max-w-sm mx-auto mt-3 bg-white shadow-lg rounded-lg overflow-hidden">
-   <ul className="flex flex-col text-right p-4 space-y-2 text-gray-600">
+  <div className=" w-full max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+   <ul className="flex flex-col text-right p-4 space-y-2 ">
     <li
      onClick={() => setActiveTab("DeliveryProducts")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "DeliveryProducts" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "DeliveryProducts" ? "bg-btn " : "bg-btn-hover  " 
      } `}
     >
      <span>تحویل داده شده</span>
-     <FaShoppingCart className="text-teal-500" />
+     <FaShoppingCart className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("Order")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "Order" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "Order" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>سفارش جاری</span>
-     <FaShoppingCart className="text-teal-500" />
+     <FaShoppingCart className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("Cancel")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "Cancel" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "Cancel" ? "bg-btn" : "bg-btn-hover"
      } `}
     >
      <span>لغو شده</span>
-     <FaTimes className="text-teal-500" />
+     <FaTimes className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("ProductReturn")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "ProductReturn" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "ProductReturn" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>مرجوع محصول</span>
-     <FaUndo className="text-teal-500" />
+     <FaUndo className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("MyLists")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "MyLists" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "MyLists" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>لیست های من</span>
-     <FaList className="text-teal-500" />
+     <FaList className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("Addresses")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "Addresses" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "Addresses" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>آدرس ها</span>
-     <FaMapMarkerAlt className="text-teal-500" />
+     <FaMapMarkerAlt className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("Messages")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "Messages" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "Messages" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>پیغام ها</span>
-     <FaEnvelope className="text-teal-500" />
+     <FaEnvelope className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("Profile")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "Profile" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "Profile" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>پروفایل</span>
-     <FaUser className="text-teal-500" />
+     <FaUser className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("EditInformation")}
      className={` flex flex-row-reverse gap-2 items-center justify-end  p-2 rounded-lg cursor-pointer ${
-      activeTab === "EditInformation" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "EditInformation" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>ویرایش اطلاعات</span>
-     <FaPencilAlt className="text-teal-500" />
+     <FaPencilAlt className="text-col" />
     </li>
     <li
      onClick={() => setActiveTab("SecurityAndPassword")}
      className={` flex flex-row-reverse gap-2 items-center justify-end p-2 rounded-lg cursor-pointer ${
-      activeTab === "SecurityAndPassword" ? "bg-teal-100" : "hover:bg-gray-100"
+      activeTab === "SecurityAndPassword" ? "bg-btn" : "bg-btn-hover "
      } `}
     >
      <span>امنیت و تغییر رمز</span>
-     <FaLock className="text-teal-500" />
+     <FaLock className="text-col" />
     </li>
    </ul>
   </div>

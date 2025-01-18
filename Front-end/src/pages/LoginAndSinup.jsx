@@ -103,7 +103,7 @@ function LoginAndSinup() {
    const response = await axios.post(`${httphostname}/auth/login`, loginData);
    const { message, accessToken } = response.data.data;
    localStorage.setItem("authToken", accessToken);
-   const userResponse = await axios.get(`${httphostname}/auth/me`, {
+   const userResponse = await axios.get(`${httphostname}/profile/`, {
     headers: { Authorization: `Bearer ${accessToken}` },
    });
    dispatch(setUser(userResponse.data.data.user));
@@ -125,8 +125,8 @@ function LoginAndSinup() {
    <div className=" w-full my-5">
     {flaglogin ? (
      //sinup
-     <div className="flex justify-center items-center min-h-screen ">
-      <form onSubmit={handleSubmitSignup} className="bg-white p-8 rounded shadow-md w-full max-w-md">
+     <div className="flex justify-center items-center h-max ">
+      <form onSubmit={handleSubmitSignup} className="bg-white p-8 rounded shadow-md w-full max-w-md flex flex-col gap-2">
        <h2 className="text-2xl font-bold text-center mb-6">ایجاد حساب کاربری</h2>
        <div>
         <label className="block text-right text-gray-600 mb-1">* نام کاربری</label>
@@ -170,14 +170,14 @@ function LoginAndSinup() {
         />
        </div>
 
-       {/* <div className="flex items-center mb-4 mt-2">
+       <div className="flex items-center mt-3">
         <input type="checkbox" id="termsAccepted" name="termsAccepted" checked={formData.termsAccepted} onChange={handleChange} className="mx-2 " />
         <label htmlFor="termsAccepted" className="text-sm ">
          تمامی شرایط و قوانین سایت را مطالعه کرده‌ام و با آن موافقم.
         </label>
-       </div> */}
+       </div>
 
-       <button type="submit" className="w-full bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-600 focus:outline-none">
+       <button type="submit" className="w-full bg-teal-500 text-white py-2 px-4 mt-2 rounded hover:bg-teal-600 focus:outline-none">
         عضویت
        </button>
 

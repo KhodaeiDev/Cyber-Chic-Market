@@ -2,11 +2,11 @@ import React from "react";
 
 function EditInformation() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-max pb-4 shadow-lg rounded-lg">
+    <div className="flex flex-col items-center justify-center min-h-max pb-4 shadow-md rounded-lg">
       <div className=" w-full flex flex-col justify-center lg:flex-row gap-8 p-8 bg-white  ">
-        {/* Personal Account Information */}
+
         <div className="w-[80%] mx-auto lg:w-full p-4">
-          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-teal-500 pb-2 mb-4">
+          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-col pb-2 mb-4">
             اطلاعات حساب شخصی
           </h2>
           <div className="space-y-4">
@@ -15,7 +15,7 @@ function EditInformation() {
               <input
                 type="text"
                 placeholder="مثال: mollashahi"
-                className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+                className="w-full px-4 py-2 rounded-full bg-inp border  focus:outline-none"
               />
             </div>
             <div>
@@ -25,7 +25,7 @@ function EditInformation() {
               <input
                 type="text"
                 placeholder="مثال: ابوالفضل ملاشاهی"
-                className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+                className="w-full px-4 py-2 rounded-full bg-inp border  focus:outline-none"
               />
             </div>
             <div>
@@ -33,7 +33,7 @@ function EditInformation() {
               <input
                 type="text"
                 placeholder="مثال: 0911"
-                className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+                className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none"
               />
             </div>
             <div>
@@ -43,7 +43,7 @@ function EditInformation() {
               <input
                 type="email"
                 placeholder="info@test.com"
-                className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+                className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none"
               />
             </div>
             <div className="">
@@ -54,7 +54,7 @@ function EditInformation() {
                 <input
                   type="checkbox"
                   id="receiveSms"
-                  className="appearance-none h-5 w-5 border border-gray-300 rounded-sm checked:bg-teal-300 checked:border-transparent focus:outline-none checked:after:content-['✓'] checked:after:text-white checked:after:block checked:after:-translate-y-1 checked:after:text-center "
+                  className="appearance-none  h-5 w-5 border border-gray-300  rounded-sm checked:bg-teal-300 checked:border-transparent focus:outline-none checked:after:content-['✓'] checked:after:text-white checked:after:block checked:after:-translate-y-1 checked:after:text-center "
                 />
                 تمایل به دریافت پیامک دارم
               </label>
@@ -64,7 +64,7 @@ function EditInformation() {
 
         {/* Bank Account Information */}
         <div className="w-[80%] mx-auto lg:w-full p-4">
-          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-teal-500 pb-2 mb-4">
+          <h2 className="text-lg font-semibold text-gray-700 border-b-2 border-col pb-2 mb-4">
             اطلاعات حساب بانکی
           </h2>
           <div className="space-y-4">
@@ -75,7 +75,7 @@ function EditInformation() {
               <input
                 type="text"
                 placeholder="شماره کارت شما"
-                className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+                className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none"
               />
             </div>
             <div>
@@ -85,13 +85,13 @@ function EditInformation() {
               <input
                 type="text"
                 placeholder="شماره شبا شما"
-                className="w-full px-4 py-2 rounded-full bg-teal-50 border border-teal-200 focus:outline-none"
+                className="w-full px-4 py-2 rounded-full bg-inp border focus:outline-none"
               />
             </div>
           </div>
         </div>
       </div>
-      <button className="mt-8 px-6 py-2 bg-teal-500 text-white rounded-full hover:bg-teal-600 focus:outline-none">
+      <button className="mt-8 px-6 py-2 bg-btn rounded-full">
         ثبت اطلاعات کاربری
       </button>
     </div>

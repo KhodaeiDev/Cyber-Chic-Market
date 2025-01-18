@@ -32,7 +32,7 @@ function MyLists() {
 
   return (
     <div className="w-full mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-teal-500 ">محصولات مورد علاقه</h2>
+      <h2 className="text-2xl font-semibold mb-6 border-b pb-4 border-col ">محصولات مورد علاقه</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {products.map((product, index) => (
           <ProductCard
@@ -54,21 +54,19 @@ export default MyLists;
 function ProductCard({ image, title, price, specialOffer, delivery }) {
   return (
     <div className="border rounded-md shadow-md p-4 flex flex-col items-center">
-      <img src={image} alt={title} className="w-32 h-32 object-cover mb-4" />
+      <img src={image} alt={title} className="w-[100px] h-[130px] z-50 transition-all object-cover mb-4" />
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
       {delivery && (
         <p className="text-sm text-gray-500 mb-2 flex items-center">
           {delivery} <span className="ml-1">🚚</span>
         </p>
       )}
-      <p className="text-sm text-gray-600 mb-4 flex items-center">
-        <span className="ml-1">🎁</span> هدیه نقدی {price} تومان
-      </p>
-      <div className="flex justify-around w-full">
-        <button className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 flex items-center">
+
+      <div className="w-[90%] flex justify-center gap-2 ">
+        <button className="p-2  bg-btn w-full rounded  flex justify-center items-center">
           افزودن به سبد <span className="ml-1">🛒</span>
         </button>
-        <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 flex items-center">
+        <button className="p-2 bg-btn w-full  rounded flex justify-center items-center">
           حذف از لیست <span className="ml-1">🗑️</span>
         </button>
       </div>
